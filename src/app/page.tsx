@@ -36,9 +36,8 @@ export default function DiscoveryPage() {
                       <Image
                         src={talk.image}
                         alt={talk.title}
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-t-lg"
+                        fill
+                        className="rounded-t-lg object-cover"
                         data-ai-hint="presentation conference"
                       />
                     </div>
