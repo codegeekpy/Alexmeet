@@ -1,1 +1,7 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/personalized-agenda-builder.ts';
+import '@/ai/flows/post-event-follow-up-assistant.ts';
+import '@/ai/flows/real-time-ai-assistant.ts';
+import '@/ai/flows/matchmaking-engine.ts';
