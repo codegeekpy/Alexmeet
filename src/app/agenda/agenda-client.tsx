@@ -1,6 +1,7 @@
 "use client";
 
 import { personalizedAgendaBuilder, PersonalizedAgendaBuilderOutput } from "@/ai/flows/personalized-agenda-builder";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,13 +9,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { eventSessions } from "@/lib/data";
-import { Calendar, Clock, Loader2, Sparkles } from "lucide-react";
+import { AlertTriangle, Calendar, Clock, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 export function AgendaClient() {
-  const [interests, setInterests] = useState("Generative AI, Vector Databases");
+  const [interests, setInterests] = useState("Generative AI, Vector Databases, AI Ethics");
   const [goals, setGoals] = useState("Find co-founders and learn about scaling AI applications.");
-  const [agenda, setAgenda] = useState<PersonalizedAgendaBuilderOutput['recommendedSessions'] | null>(null);
+  const [agenda, setAgenda] = useState<PersonalizedAgendaBuilderOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -30,7 +31,7 @@ export function AgendaClient() {
         ],
         sessions: eventSessions,
       });
-      setAgenda(result.recommendedSessions);
+      setAgenda(result);
     } catch (error) {
       console.error("Failed to generate agenda:", error);
       toast({
@@ -101,10 +102,10 @@ export function AgendaClient() {
             ))}
            </div>
         )}
-        {!isLoading && agenda && agenda.length > 0 && (
+        {!isLoading && agenda && agenda.recommendedSessions.length > 0 && (
           <div className="space-y-4 relative">
              <div className="absolute left-4 top-0 h-full w-0.5 bg-border -z-10" />
-            {agenda.map((session, index) => (
+            {agenda.recommendedSessions.map((session, index) => (
               <div key={index} className="flex items-start gap-4 ml-4">
                 <div className="mt-1 flex-shrink-0 bg-primary w-4 h-4 rounded-full border-4 border-background" />
                 <div className="flex-1 -mt-1.5">
@@ -128,7 +129,51 @@ export function AgendaClient() {
             ))}
           </div>
         )}
-        {!isLoading && (!agenda || agenda.length === 0) && (
+        
+        {!isLoading && agenda && agenda.conflicts && agenda.conflicts.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-xl font-bold tracking-tight mb-4">Scheduling Conflicts & Alternatives</h3>
+            <Accordion type="single" collapsible className="w-full">
+              {agenda.conflicts.map((conflict, index) => (
+                <AccordionItem value={`conflict-${index}`} key={index}>
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-left">
+                      <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                      <span>Conflict: {conflict.chosenSession.title} vs {conflict.conflictingSession.title}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="p-4 border bg-secondary/50 rounded-lg space-y-4">
+                      <p className="text-sm">We noticed a scheduling conflict and recommended <strong>{conflict.chosenSession.title}</strong> based on your preferences.</p>
+                      {conflict.alternativeSuggestions.length > 0 && (
+                        <div>
+                          <h4 className="font-semibold mb-2">Here are some alternatives for {conflict.conflictingSession.title}:</h4>
+                          <ul className="space-y-3">
+                            {conflict.alternativeSuggestions.map((alt, altIndex) => (
+                              <li key={altIndex} className="p-3 bg-background rounded-md border">
+                                <p className="font-semibold">{alt.title}</p>
+                                <p className="text-xs text-muted-foreground flex items-center gap-2 mt-1">
+                                  <Calendar className="w-3 h-3" /> {new Date(alt.startTime).toLocaleDateString()}
+                                  <Clock className="w-3 h-3" /> {formatTime(alt.startTime)} - {formatTime(alt.endTime)}
+                                </p>
+                                <p className="text-sm text-primary italic flex items-start gap-2 mt-2">
+                                  <Sparkles className="inline-block w-4 h-4 mr-1 flex-shrink-0 mt-0.5" />
+                                  <span>{alt.reason}</span>
+                                </p>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        )}
+
+        {!isLoading && (!agenda || agenda.recommendedSessions.length === 0) && (
             <div className="flex flex-col items-center justify-center text-center p-12 border-2 border-dashed rounded-lg bg-muted/50">
                 <Calendar className="w-12 h-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-semibold">Your Agenda Awaits</h3>
