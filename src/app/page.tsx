@@ -35,6 +35,7 @@ export default function DiscoveryPage() {
                     <div className="aspect-video relative mb-4">
                       <Image
                         src={talk.image}
+                        priority={index === 0}
                         alt={talk.title}
                         fill
                         className="rounded-t-lg object-cover"
@@ -70,7 +71,7 @@ export default function DiscoveryPage() {
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                   <Avatar className="w-16 h-16 border-2 border-primary/20">
-                    <AvatarImage src={person.avatar} alt={person.name} />
+                    <AvatarImage src={person.avatar} alt={person.name} data-ai-hint="person portrait" />
                     <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">

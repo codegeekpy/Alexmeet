@@ -59,7 +59,8 @@ export function MatchmakingClient() {
         title: "AI Enthusiast",
         company: "AIxMeet Inc.",
         interests: ['AI', 'SaaS'],
-        goals: "Find co-founders and learn about scaling AI applications."
+        goals: "Find co-founders and learn about scaling AI applications.",
+        avatar: "https://placehold.co/100x100.png",
       };
 
       const matchProfile = {
@@ -67,6 +68,7 @@ export function MatchmakingClient() {
         title: match.title,
         company: match.company,
         interests: match.interests,
+        avatar: match.avatar
       };
 
       const result = await generateMeetingWarmUp({ userProfile, matchProfile });
@@ -117,7 +119,7 @@ export function MatchmakingClient() {
               <CardHeader>
                 <div className="flex items-start gap-4">
                    <Avatar className="w-16 h-16 border-2 border-primary/20">
-                    <AvatarImage src={`https://placehold.co/100x100.png?text=${match.attendeeName.charAt(0)}`} alt={match.attendeeName} />
+                    <AvatarImage src={match.avatar || 'https://placehold.co/100x100.png'} alt={match.attendeeName} data-ai-hint="person portrait" />
                     <AvatarFallback>{match.attendeeName.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">

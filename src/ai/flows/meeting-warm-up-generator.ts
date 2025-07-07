@@ -15,7 +15,8 @@ const AttendeeProfileSchema = z.object({
     title: z.string().describe('The job title of the attendee.'),
     company: z.string().describe('The company the attendee works for.'),
     interests: z.array(z.string()).describe("A list of the attendee's interests."),
-    goals: z.string().optional().describe("The attendee's goals for the event.")
+    goals: z.string().optional().describe("The attendee's goals for the event."),
+    avatar: z.string().optional(),
 });
 
 const MeetingWarmUpInputSchema = z.object({

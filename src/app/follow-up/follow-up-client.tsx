@@ -49,7 +49,7 @@ export function FollowUpClient() {
             {peopleMet.map((person, index) => (
               <div key={index} className="flex items-center gap-4">
                 <Avatar>
-                  <AvatarImage src={`https://placehold.co/100x100.png?text=${person.name.charAt(0)}`} />
+                  <AvatarImage src={person.avatar} alt={person.name} data-ai-hint="person portrait" />
                   <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>

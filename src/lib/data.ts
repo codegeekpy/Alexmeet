@@ -88,22 +88,24 @@ export const eventSessions = [
 ];
 
 export const allAttendees = [
-  { name: 'David Miller', title: 'Data Scientist at BigData Corp', company: 'BigData Corp', interests: ['AI', 'SaaS', 'Venture Capital'], personalityTraits: ['Analytical', 'Driven'] },
-  { name: 'Emily White', title: 'UX Lead at Creative Solutions', company: 'Creative Solutions', interests: ['UX/UI Design', 'Frontend Development', 'Web3'], personalityTraits: ['Creative', 'Collaborative'] },
-  { name: 'Frank Green', title: 'ML Researcher at DeepLearn AI', company: 'DeepLearn AI', interests: ['AI', 'ML', 'Data Science'], personalityTraits: ['Analytical', 'Introverted'] },
-  { name: 'Grace Hall', title: 'Head of Product at ScaleFast', company: 'ScaleFast', interests: ['Product Management', 'SaaS', 'Growth Hacking'], personalityTraits: ['Extroverted', 'Leader'] },
+  { name: 'David Miller', title: 'Data Scientist at BigData Corp', company: 'BigData Corp', interests: ['AI', 'SaaS', 'Venture Capital'], personalityTraits: ['Analytical', 'Driven'], avatar: 'https://placehold.co/100x100.png' },
+  { name: 'Emily White', title: 'UX Lead at Creative Solutions', company: 'Creative Solutions', interests: ['UX/UI Design', 'Frontend Development', 'Web3'], personalityTraits: ['Creative', 'Collaborative'], avatar: 'https://placehold.co/100x100.png' },
+  { name: 'Frank Green', title: 'ML Researcher at DeepLearn AI', company: 'DeepLearn AI', interests: ['AI', 'ML', 'Data Science'], personalityTraits: ['Analytical', 'Introverted'], avatar: 'https://placehold.co/100x100.png' },
+  { name: 'Grace Hall', title: 'Head of Product at ScaleFast', company: 'ScaleFast', interests: ['Product Management', 'SaaS', 'Growth Hacking'], personalityTraits: ['Extroverted', 'Leader'], avatar: 'https://placehold.co/100x100.png' },
 ];
 
 export const peopleMet = [
     {
       name: 'Alice Johnson',
       company: 'Innovate Inc.',
+      avatar: 'https://placehold.co/100x100.png',
       sharedInterests: 'Generative AI, Ethical ML',
       conversationSummary: 'Discussed potential collaboration on a new open-source project and her recent work with large language models.',
     },
     {
       name: 'Ben Carter',
       company: 'Groq',
+      avatar: 'https://placehold.co/100x100.png',
       sharedInterests: 'High-performance computing, API design',
       conversationSummary: 'Talked about the impressive speed of the Groq LPU and best practices for integrating the API for real-time applications.',
     },
