@@ -1,6 +1,6 @@
 
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { organizerStats } from '@/lib/data';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
@@ -23,6 +23,7 @@ export default function DashboardClient() {
                 <Card className="lg:col-span-4">
                     <CardHeader>
                         <CardTitle>Session Ratings</CardTitle>
+                        <CardDescription>Average user ratings for top event sessions.</CardDescription>
                     </CardHeader>
                     <CardContent className="pl-2">
                         <SessionRatingsChart data={organizerStats.sessionRatings} />
@@ -32,6 +33,7 @@ export default function DashboardClient() {
                 <Card className="lg:col-span-3">
                     <CardHeader>
                         <CardTitle>Interest Distribution</CardTitle>
+                        <CardDescription>Breakdown of attendee interests.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <InterestDistributionChart data={organizerStats.interestDistribution} />
@@ -42,6 +44,7 @@ export default function DashboardClient() {
             <Card>
                 <CardHeader>
                     <CardTitle>Engagement Heatmap</CardTitle>
+                    <CardDescription>Visual representation of user engagement across the event platform.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-10 gap-2">
@@ -49,7 +52,7 @@ export default function DashboardClient() {
                             <div
                                 key={i}
                                 className="w-full aspect-square rounded-md"
-                                style={{ backgroundColor: `rgba(103, 58, 183, ${engagement.toFixed(2)})` }}
+                                style={{ backgroundColor: `hsla(221.2, 83.2%, 53.3%, ${engagement})` }}
                                 title={`Engagement: ${(engagement * 100).toFixed(0)}%`}
                                 data-ai-hint="heatmap color"
                             />

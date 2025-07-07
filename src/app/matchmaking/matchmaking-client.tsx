@@ -93,20 +93,20 @@ export function MatchmakingClient() {
              <Card key={i} className="animate-pulse">
                 <CardHeader>
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-gray-200"></div>
+                    <Skeleton className="w-16 h-16 rounded-full"></Skeleton>
                     <div className="space-y-2 flex-1">
-                      <div className="h-5 w-3/4 bg-gray-200 rounded"></div>
-                      <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
+                      <Skeleton className="h-5 w-3/4"></Skeleton>
+                      <Skeleton className="h-4 w-1/2"></Skeleton>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-2 w-full bg-gray-200 rounded mt-2"></div>
-                  <div className="h-3 w-5/6 bg-gray-200 rounded mt-4"></div>
-                  <div className="h-3 w-4/6 bg-gray-200 rounded mt-2"></div>
+                  <Skeleton className="h-2 w-full mt-2"></Skeleton>
+                  <Skeleton className="h-3 w-5/6 mt-4"></Skeleton>
+                  <Skeleton className="h-3 w-4/6 mt-2"></Skeleton>
                 </CardContent>
                 <CardFooter>
-                  <div className="h-10 w-full bg-gray-200 rounded"></div>
+                  <Skeleton className="h-10 w-full"></Skeleton>
                 </CardFooter>
              </Card>
           ))}
@@ -115,7 +115,7 @@ export function MatchmakingClient() {
       {!isLoading && matches && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {matches.map((match, index) => (
-            <Card key={index} className="flex flex-col">
+            <Card key={index} className="flex flex-col transition-shadow hover:shadow-lg">
               <CardHeader>
                 <div className="flex items-start gap-4">
                    <Avatar className="w-16 h-16 border-2 border-primary/20">
@@ -136,9 +136,9 @@ export function MatchmakingClient() {
               </CardHeader>
               <CardContent className="flex-grow">
                 <Progress value={match.matchPercentage} className="h-2 mb-4" />
-                <p className="text-sm text-muted-foreground italic">
-                  <Sparkles className="inline-block w-4 h-4 mr-2 text-primary" />
-                  {match.matchReason}
+                <p className="text-sm text-muted-foreground italic flex items-start gap-2">
+                  <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
+                  <span>{match.matchReason}</span>
                 </p>
               </CardContent>
               <CardFooter>

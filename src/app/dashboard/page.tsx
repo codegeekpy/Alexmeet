@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { BarChart, PieChart, Users, Star } from 'lucide-react';
 import { organizerStats } from '@/lib/data';
 import DashboardClient from '@/components/dashboard-client';

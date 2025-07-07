@@ -5,7 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,6 +13,7 @@ import { Progress } from '@/components/ui/progress';
 import { trendingTalks, recommendedForYou } from '@/lib/data';
 import { RealTimeAIAssistant } from '@/components/real-time-ai-assistant';
 import { Button } from '@/components/ui/button';
+import { UserCheck } from 'lucide-react';
 
 export default function DiscoveryPage() {
   return (
@@ -30,8 +31,8 @@ export default function DiscoveryPage() {
           <CarouselContent>
             {trendingTalks.map((talk: any, index: number) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <Card className="h-full">
-                  <CardHeader>
+                <Card className="h-full transition-shadow hover:shadow-lg">
+                  <CardHeader className="p-0">
                     <div className="aspect-video relative mb-4">
                       <Image
                         src={talk.image}
@@ -42,11 +43,11 @@ export default function DiscoveryPage() {
                         className="rounded-t-lg object-cover"
                       />
                     </div>
-                    <CardTitle>{talk.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground">{talk.speaker}</p>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-wrap gap-2">
+                    <CardTitle>{talk.title}</CardTitle>
+                    <p className="text-sm text-muted-foreground pt-1">{talk.speaker}</p>
+                    <div className="flex flex-wrap gap-2 mt-4">
                       {talk.tags.map((tag: any) => (
                         <Badge key={tag} variant="secondary">
                           {tag}
@@ -67,25 +68,30 @@ export default function DiscoveryPage() {
         <h2 className="text-2xl font-bold tracking-tight mb-4">Recommended For You</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {recommendedForYou.map((person) => (
-            <Card key={person.name}>
-              <CardContent className="pt-6">
-                <div className="flex items-start gap-4">
+            <Card key={person.name} className="transition-shadow hover:shadow-lg flex flex-col">
+               <CardHeader>
+                 <div className="flex items-start gap-4">
                   <Avatar className="w-16 h-16 border-2 border-primary/20">
                     <AvatarImage src={person.avatar} alt={person.name} />
                     <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg">{person.name}</h3>
-                    <p className="text-muted-foreground">{person.title}</p>
-                    <div className="mt-2">
-                      <Progress value={person.match} className="h-2" />
-                      <p className="text-sm text-muted-foreground mt-1">{person.match}% Match</p>
-                    </div>
+                    <CardTitle className="text-xl">{person.name}</CardTitle>
+                    <CardDescription>{person.title}</CardDescription>
+                     <Badge variant="outline" className="mt-2">
+                        <UserCheck className="w-3 h-3 mr-1" />
+                        {person.match}% Match
+                      </Badge>
                   </div>
                 </div>
-                <p className="text-sm mt-4 text-muted-foreground">{person.reason}</p>
-                 <Button variant="outline" size="sm" className="mt-4 w-full">View Profile</Button>
+               </CardHeader>
+              <CardContent className="flex-grow">
+                <Progress value={person.match} className="h-2 my-2" />
+                <p className="text-sm mt-2 text-muted-foreground">{person.reason}</p>
               </CardContent>
+              <CardFooter>
+                 <Button variant="outline" size="sm" className="w-full">View Profile</Button>
+              </CardFooter>
             </Card>
           ))}
         </div>

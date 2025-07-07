@@ -93,9 +93,9 @@ export function AgendaClient() {
             {[...Array(3)].map((_, i) => (
                 <div key={i} className="flex items-center space-x-4">
                   <div className="h-12 w-1 bg-gray-200 rounded-full" />
-                  <div className="w-full p-4 border rounded-lg bg-gray-50 animate-pulse">
-                     <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                     <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  <div className="w-full p-4 border rounded-lg bg-muted animate-pulse">
+                     <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                     <div className="h-3 bg-gray-300 rounded w-1/2"></div>
                   </div>
                 </div>
             ))}
@@ -108,18 +108,18 @@ export function AgendaClient() {
               <div key={index} className="flex items-start gap-4 ml-4">
                 <div className="mt-1 flex-shrink-0 bg-primary w-4 h-4 rounded-full border-4 border-background" />
                 <div className="flex-1 -mt-1.5">
-                  <Card className="hover:shadow-md transition-shadow">
+                  <Card className="transition-shadow hover:shadow-md">
                     <CardHeader>
                       <CardTitle>{session.title}</CardTitle>
-                      <CardDescription className="flex items-center gap-4 pt-1">
-                          <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {new Date(session.startTime).toLocaleDateString()}</span>
-                          <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {formatTime(session.startTime)} - {formatTime(session.endTime)}</span>
+                      <CardDescription className="flex items-center flex-wrap gap-x-4 gap-y-1 pt-1">
+                          <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {new Date(session.startTime).toLocaleDateString()}</span>
+                          <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {formatTime(session.startTime)} - {formatTime(session.endTime)}</span>
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-primary italic">
-                        <Sparkles className="inline-block w-4 h-4 mr-2" />
-                        {session.reason}
+                      <p className="text-sm text-primary italic flex items-start gap-2">
+                        <Sparkles className="inline-block w-4 h-4 mr-1 flex-shrink-0 mt-0.5" />
+                        <span>{session.reason}</span>
                       </p>
                     </CardContent>
                   </Card>
@@ -129,10 +129,10 @@ export function AgendaClient() {
           </div>
         )}
         {!isLoading && (!agenda || agenda.length === 0) && (
-            <div className="flex flex-col items-center justify-center text-center p-12 border-2 border-dashed rounded-lg">
+            <div className="flex flex-col items-center justify-center text-center p-12 border-2 border-dashed rounded-lg bg-muted/50">
                 <Calendar className="w-12 h-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-semibold">Your Agenda Awaits</h3>
-                <p className="text-muted-foreground">Fill in your preferences and click generate to see your personalized schedule.</p>
+                <p className="text-muted-foreground mt-1">Fill in your preferences and click generate to see your personalized schedule.</p>
             </div>
         )}
       </div>
