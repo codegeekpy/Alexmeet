@@ -4,95 +4,95 @@
 
 @layer base {
   :root {
-    --background: 0 0% 96%; /* Very light gray from PRD */
-    --foreground: 0 0% 13%; /* Dark charcoal for text */
-    
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 13%;
-    
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 13%;
-    
-    --primary: 261 52% 57%; /* Deep purple from PRD */
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 340 82% 52%; /* A vibrant pink for secondary actions */
+    --background: 44 58% 88%; /* #f2e9ce - Light Cream */
+    --foreground: 55 41% 20%; /* #47441E - Dark Olive/Brown */
+
+    --card: 48 67% 98%; /* #FCFBF7 - Off-white */
+    --card-foreground: 55 41% 20%;
+
+    --popover: 48 67% 98%;
+    --popover-foreground: 55 41% 20%;
+
+    --primary: 39 88% 56%; /* #f2ae2e - Golden Yellow */
+    --primary-foreground: 55 41% 15%; /* A darker brown for contrast on yellow */
+
+    --secondary: 349 56% 64%; /* #d96c80 - Dusty Rose */
     --secondary-foreground: 0 0% 100%;
-    
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 45%;
-    
-    --accent: 174 100% 29%; /* Teal from PRD */
+
+    --muted: 45 41% 84%; /* #e8e0c4 - Darker Cream */
+    --muted-foreground: 55 20% 40%; /* #7a7652 - Muted Olive */
+
+    --accent: 55 41% 52%; /* #bfb74b - Olive Green */
     --accent-foreground: 0 0% 100%;
-    
-    --destructive: 4 90% 58%; /* A standard red for destructive actions */
+
+    --destructive: 344 63% 45%; /* #bf2a52 - Raspberry Pink */
     --destructive-foreground: 0 0% 100%;
-    
-    --border: 0 0% 87%;
-    --input: 0 0% 87%;
-    --ring: 261 52% 57%;
-    
-    --chart-1: 261 52% 57%; /* Purple */
-    --chart-2: 174 100% 29%; /* Teal */
-    --chart-3: 340 82% 52%; /* Pink */
-    --chart-4: 45 100% 51%;  /* Amber */
-    --chart-5: 207 90% 54%;  /* Blue */
+
+    --border: 44 18% 78%; /* #d1cabb */
+    --input: 44 18% 78%;
+    --ring: 39 88% 56%; /* Golden Yellow */
+
+    --chart-1: 39 88% 56%;  /* Golden Yellow */
+    --chart-2: 349 56% 64%; /* Dusty Rose */
+    --chart-3: 55 41% 52%;  /* Olive Green */
+    --chart-4: 344 63% 45%; /* Raspberry Pink */
+    --chart-5: 186 16% 46%; /* Slate Blue */
 
     --radius: 0.5rem;
     
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 13%;
-    --sidebar-primary: 261 52% 57%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 92%;
-    --sidebar-accent-foreground: 0 0% 13%;
-    --sidebar-border: 0 0% 87%;
-    --sidebar-ring: 261 52% 57%;
+    --sidebar-background: 46 45% 94%; /* A slightly different cream for sidebar */
+    --sidebar-foreground: 55 41% 20%;
+    --sidebar-primary: 39 88% 56%;
+    --sidebar-primary-foreground: 55 41% 15%;
+    --sidebar-accent: 45 41% 84%;
+    --sidebar-accent-foreground: 55 41% 20%;
+    --sidebar-border: 44 18% 78%;
+    --sidebar-ring: 39 88% 56%;
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 0 0% 98%;
+    --background: 51 28% 10%; /* #211F13 - Dark Olive */
+    --foreground: 44 58% 88%; /* #f2e9ce - Light Cream */
     
-    --card: 222 47% 14%;
-    --card-foreground: 0 0% 98%;
+    --card: 51 28% 13%; /* #2A271A */
+    --card-foreground: 44 58% 88%;
 
-    --popover: 222 47% 14%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 51 28% 13%;
+    --popover-foreground: 44 58% 88%;
 
-    --primary: 261 52% 67%;
-    --primary-foreground: 261 52% 10%;
+    --primary: 40 90% 63%; /* #f5b94b - Lighter Golden Yellow */
+    --primary-foreground: 55 41% 15%;
 
-    --secondary: 340 82% 62%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 349 57% 71%; /* #e08a99 - Lighter Dusty Rose */
+    --secondary-foreground: 55 41% 15%;
 
-    --muted: 222 47% 20%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 52 23% 16%; /* #312E20 */
+    --muted-foreground: 52 14% 57%; /* #a19c82 */
 
-    --accent: 174 100% 39%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 55 52% 61%; /* #d0c968 - Lighter Olive */
+    --accent-foreground: 55 41% 15%;
 
-    --destructive: 4 90% 68%;
+    --destructive: 344 56% 56%; /* #cf4f6f - Lighter Raspberry */
     --destructive-foreground: 0 0% 100%;
     
-    --border: 222 47% 25%;
-    --input: 222 47% 25%;
-    --ring: 261 52% 67%;
+    --border: 52 21% 23%; /* #47442d */
+    --input: 52 21% 23%;
+    --ring: 40 90% 63%;
 
-    --chart-1: 261 52% 67%;
-    --chart-2: 174 100% 39%;
-    --chart-3: 340 82% 62%;
-    --chart-4: 45 100% 61%;
-    --chart-5: 207 90% 64%;
+    --chart-1: 40 90% 63%;
+    --chart-2: 349 57% 71%;
+    --chart-3: 55 52% 61%;
+    --chart-4: 344 56% 56%;
+    --chart-5: 186 16% 60%;
 
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 261 52% 67%;
-    --sidebar-primary-foreground: 261 52% 10%;
-    --sidebar-accent: 222 47% 16%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 222 47% 25%;
-    --sidebar-ring: 261 52% 67%;
+    --sidebar-background: 51 28% 10%;
+    --sidebar-foreground: 44 58% 88%;
+    --sidebar-primary: 40 90% 63%;
+    --sidebar-primary-foreground: 55 41% 15%;
+    --sidebar-accent: 51 28% 16%;
+    --sidebar-accent-foreground: 44 58% 88%;
+    --sidebar-border: 52 21% 23%;
+    --sidebar-ring: 40 90% 63%;
   }
 }
 
