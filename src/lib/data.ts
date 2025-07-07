@@ -4,24 +4,28 @@ export const trendingTalks = [
     speaker: 'Dr. Evelyn Reed',
     image: 'https://placehold.co/600x400.png',
     tags: ['AI', 'ML', 'Future Tech'],
+    imageHint: 'AI future',
   },
   {
     title: 'Scaling Vector Databases for Enterprise',
     speaker: 'Johnathan Chen',
     image: 'https://placehold.co/600x400.png',
     tags: ['Databases', 'Scaling', 'Weaviate'],
+    imageHint: 'database server',
   },
   {
     title: 'Human-Centered AI Design',
     speaker: 'Priya Sharma',
     image: 'https://placehold.co/600x400.png',
     tags: ['UX', 'Design', 'Ethics'],
+    imageHint: 'design experience',
   },
   {
     title: 'Building with Groq: Speed & Efficiency',
     speaker: 'Ben Carter',
     image: 'https://placehold.co/600x400.png',
     tags: ['Groq', 'APIs', 'Performance'],
+    imageHint: 'processor chip',
   },
 ];
 

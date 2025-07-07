@@ -28,7 +28,7 @@ export default function DiscoveryPage() {
           className="w-full"
         >
           <CarouselContent>
-            {trendingTalks.map((talk, index) => (
+            {trendingTalks.map((talk: any, index: number) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <Card className="h-full">
                   <CardHeader>
@@ -39,7 +39,7 @@ export default function DiscoveryPage() {
                         alt={talk.title}
                         fill
                         className="rounded-t-lg object-cover"
-                        data-ai-hint="presentation conference"
+                        data-ai-hint={talk.imageHint}
                       />
                     </div>
                     <CardTitle>{talk.title}</CardTitle>
@@ -47,7 +47,7 @@ export default function DiscoveryPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {talk.tags.map((tag) => (
+                      {talk.tags.map((tag: any) => (
                         <Badge key={tag} variant="secondary">
                           {tag}
                         </Badge>
