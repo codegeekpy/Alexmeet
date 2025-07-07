@@ -125,10 +125,10 @@ export const organizerStats = {
       { name: 'Scaling Databases', rating: 4.4 },
     ],
     interestDistribution: [
-      { name: 'AI/ML', value: 45, fill: 'var(--color-chart-1)' },
-      { name: 'SaaS', value: 25, fill: 'var(--color-chart-2)' },
-      { name: 'Venture Capital', value: 15, fill: 'var(--color-chart-3)' },
-      { name: 'UX/UI', value: 10, fill: 'var(--color-chart-4)' },
-      { name: 'Other', value: 5, fill: 'var(--color-chart-5)' },
+      { name: 'AI/ML', value: 45, fill: 'hsl(var(--chart-1))' },
+      { name: 'SaaS', value: 25, fill: 'hsl(var(--chart-2))' },
+      { name: 'Venture Capital', value: 15, fill: 'hsl(var(--chart-3))' },
+      { name: 'UX/UI', value: 10, fill: 'hsl(var(--chart-4))' },
+      { name: 'Other', value: 5, fill: 'hsl(var(--chart-5))' },
     ],
 };
