@@ -1,4 +1,3 @@
-// src/ai/flows/real-time-ai-assistant.ts
 'use server';
 /**
  * @fileOverview An AI agent that suggests nearby booths, live trending talks, and people to meet.
@@ -10,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { allAttendees, eventSessions } from '@/lib/data';
 
 const GetNextActionInputSchema = z.object({
   query: z.string().describe('The user query for what to do next.'),
@@ -25,15 +25,56 @@ export async function getNextAction(input: GetNextActionInput): Promise<GetNextA
   return getNextActionFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'getNextActionPrompt',
-  input: {schema: GetNextActionInputSchema},
-  output: {schema: GetNextActionOutputSchema},
-  prompt: `You are an AI assistant at a conference. A user has asked you what they should do next. Consider suggesting nearby booths, live trending talks, and people to meet.
+const getLiveSessions = ai.defineTool(
+  {
+    name: 'getLiveSessions',
+    description: 'Get a list of event sessions that are currently live or are starting in the next 15 minutes. Useful for when a user asks what they can do right now.',
+    inputSchema: z.object({}),
+    outputSchema: z.array(z.object({
+        title: z.string(),
+        startTime: z.string(),
+    })),
+  },
+  async () => {
+    const now = new Date();
+    const in15Minutes = new Date(now.getTime() + 15 * 60 * 1000);
+    return eventSessions
+        .filter(session => {
+            const startTime = new Date(session.startTime);
+            return startTime >= now && startTime <= in15Minutes;
+        })
+        .map(({ title, startTime }) => ({ title, startTime }));
+  }
+);
 
-  User query: {{{query}}}
+const findRelevantPeople = ai.defineTool(
+  {
+    name: 'findRelevantPeople',
+    description: 'Finds conference attendees who have a specified interest. Useful for networking recommendations.',
+    inputSchema: z.object({ interest: z.string().describe('The interest or topic to search for, e.g., "SaaS" or "AI".') }),
+    outputSchema: z.array(z.object({ name: z.string(), title: z.string(), company: z.string() })),
+  },
+  async ({ interest }) => {
+    const lowerCaseInterest = interest.toLowerCase();
+    return allAttendees
+        .filter(person => person.interests.some(i => i.toLowerCase().includes(lowerCaseInterest)))
+        .map(({ name, title, company }) => ({ name, title, company }));
+  }
+);
 
-  What is your suggestion for what the user should do next?`,
+const realTimeAssistantPrompt = ai.definePrompt({
+  name: 'realTimeAssistantPrompt',
+  tools: [getLiveSessions, findRelevantPeople],
+  system: `You are a helpful and friendly AI event guide for the AIxMeet conference.
+Your goal is to provide personalized and actionable recommendations to attendees.
+Use the available tools to answer questions about what sessions to attend or who to meet.
+
+- If the user asks what to do now or soon, use the 'getLiveSessions' tool to see what's on.
+- If the user mentions an interest or topic (e.g., "I'm interested in SaaS"), use the 'findRelevantPeople' tool to suggest networking opportunities.
+- If no specific tools apply, provide a general helpful suggestion.
+- Be proactive and engaging in your responses. Keep them concise and to the point.
+- Format your response as a direct suggestion. For example, if you find a session, say "You should check out the 'The AI Revolution' session starting soon!"
+`,
 });
 
 const getNextActionFlow = ai.defineFlow(
@@ -42,8 +83,12 @@ const getNextActionFlow = ai.defineFlow(
     inputSchema: GetNextActionInputSchema,
     outputSchema: GetNextActionOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async ({ query }) => {
+    const response = await ai.generate({
+      model: realTimeAssistantPrompt,
+      prompt: query,
+    });
+
+    return { suggestion: response.text };
   }
 );

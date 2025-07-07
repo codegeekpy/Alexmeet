@@ -36,7 +36,7 @@ export default function DiscoveryPage() {
                     <div className="aspect-video relative mb-4">
                       <Image
                         src={talk.image}
-                        priority={index === 0}
+                        priority={index === 0 ? true : false}
                         alt={talk.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
