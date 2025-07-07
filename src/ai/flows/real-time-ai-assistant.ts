@@ -62,10 +62,17 @@ const findRelevantPeople = ai.defineTool(
   }
 );
 
-const realTimeAssistantPrompt = ai.definePrompt({
-  name: 'realTimeAssistantPrompt',
-  tools: [getLiveSessions, findRelevantPeople],
-  system: `You are a helpful and friendly AI event guide for the AIxMeet conference.
+const getNextActionFlow = ai.defineFlow(
+  {
+    name: 'getNextActionFlow',
+    inputSchema: GetNextActionInputSchema,
+    outputSchema: GetNextActionOutputSchema,
+  },
+  async ({ query }) => {
+    const response = await ai.generate({
+      prompt: query,
+      tools: [getLiveSessions, findRelevantPeople],
+      system: `You are a helpful and friendly AI event guide for the AIxMeet conference.
 Your goal is to provide personalized and actionable recommendations to attendees.
 Use the available tools to answer questions about what sessions to attend or who to meet.
 
@@ -75,18 +82,6 @@ Use the available tools to answer questions about what sessions to attend or who
 - Be proactive and engaging in your responses. Keep them concise and to the point.
 - Format your response as a direct suggestion. For example, if you find a session, say "You should check out the 'The AI Revolution' session starting soon!"
 `,
-});
-
-const getNextActionFlow = ai.defineFlow(
-  {
-    name: 'getNextActionFlow',
-    inputSchema: GetNextActionInputSchema,
-    outputSchema: GetNextActionOutputSchema,
-  },
-  async ({ query }) => {
-    const response = await ai.generate({
-      model: realTimeAssistantPrompt,
-      prompt: query,
     });
 
     return { suggestion: response.text };
