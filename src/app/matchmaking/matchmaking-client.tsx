@@ -60,7 +60,7 @@ export function MatchmakingClient() {
         company: "AIxMeet Inc.",
         interests: ['AI', 'SaaS'],
         goals: "Find co-founders and learn about scaling AI applications.",
-        avatar: "https://placehold.co/100x100.png",
+        avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=300&h=300&fit=crop",
       };
 
       const matchProfile = {
@@ -119,7 +119,7 @@ export function MatchmakingClient() {
               <CardHeader>
                 <div className="flex items-start gap-4">
                    <Avatar className="w-16 h-16 border-2 border-primary/20">
-                    <AvatarImage src={match.avatar || 'https://placehold.co/100x100.png'} alt={match.attendeeName} data-ai-hint="person portrait" />
+                    <AvatarImage src={match.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&h=300&fit=crop'} alt={match.attendeeName} />
                     <AvatarFallback>{match.attendeeName.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">

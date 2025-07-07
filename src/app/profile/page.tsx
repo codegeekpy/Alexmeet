@@ -7,7 +7,7 @@ export default function ProfilePage() {
     <div className="space-y-8 max-w-2xl mx-auto">
       <div className="flex flex-col items-center space-y-4">
         <Avatar className="w-24 h-24 text-lg">
-          <AvatarImage src="https://placehold.co/100x100.png" alt="User profile" data-ai-hint="person portrait" />
+          <AvatarImage src="https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=300&h=300&fit=crop" alt="User profile" />
           <AvatarFallback>AD</AvatarFallback>
         </Avatar>
         <div className="text-center">

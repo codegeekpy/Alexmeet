@@ -3,30 +3,26 @@ export const trendingTalks = [
   {
     title: 'The Future of Generative AI',
     speaker: 'Dr. Evelyn Reed',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=600&h=400&fit=crop',
     tags: ['AI', 'ML', 'Future Tech'],
-    imageHint: 'AI future',
   },
   {
     title: 'Scaling Vector Databases for Enterprise',
     speaker: 'Johnathan Chen',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=600&h=400&fit=crop',
     tags: ['Databases', 'Scaling', 'Weaviate'],
-    imageHint: 'database server',
   },
   {
     title: 'Human-Centered AI Design',
     speaker: 'Priya Sharma',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=600&h=400&fit=crop',
     tags: ['UX', 'Design', 'Ethics'],
-    imageHint: 'design experience',
   },
   {
     title: 'Building with Groq: Speed & Efficiency',
     speaker: 'Ben Carter',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6e74e3dce9?q=80&w=600&h=400&fit=crop',
     tags: ['Groq', 'APIs', 'Performance'],
-    imageHint: 'processor chip',
   },
 ];
 
@@ -34,21 +30,21 @@ export const recommendedForYou = [
   {
     name: 'Alice Johnson',
     title: 'Lead AI Engineer at Innovate Inc.',
-    avatar: 'https://placehold.co/100x100.png',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&fit=crop',
     match: 89,
     reason: 'You share interests in "Generative AI" and "Ethical ML". Alice is also looking for collaborators on a new project.',
   },
   {
     name: 'Carlos Gomez',
     title: 'Founder of ScaleUp Solutions',
-    avatar: 'https://placehold.co/100x100.png',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&h=300&fit=crop',
     match: 82,
     reason: 'Both of you are focused on "scaling startups" and have a background in "SaaS development".',
   },
   {
     name: 'Samantha Lee',
     title: 'Product Manager at TechGiant',
-    avatar: 'https://placehold.co/100x100.png',
+    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=300&h=300&fit=crop',
     match: 76,
     reason: 'Shared interest in "product-led growth". Samantha attended the same talk on "Future of UI/UX".',
   },
@@ -93,24 +89,24 @@ export const eventSessions = [
 ];
 
 export const allAttendees = [
-  { name: 'David Miller', title: 'Data Scientist at BigData Corp', company: 'BigData Corp', interests: ['AI', 'SaaS', 'Venture Capital'], personalityTraits: ['Analytical', 'Driven'], avatar: 'https://placehold.co/100x100.png' },
-  { name: 'Emily White', title: 'UX Lead at Creative Solutions', company: 'Creative Solutions', interests: ['UX/UI Design', 'Frontend Development', 'Web3'], personalityTraits: ['Creative', 'Collaborative'], avatar: 'https://placehold.co/100x100.png' },
-  { name: 'Frank Green', title: 'ML Researcher at DeepLearn AI', company: 'DeepLearn AI', interests: ['AI', 'ML', 'Data Science'], personalityTraits: ['Analytical', 'Introverted'], avatar: 'https://placehold.co/100x100.png' },
-  { name: 'Grace Hall', title: 'Head of Product at ScaleFast', company: 'ScaleFast', interests: ['Product Management', 'SaaS', 'Growth Hacking'], personalityTraits: ['Extroverted', 'Leader'], avatar: 'https://placehold.co/100x100.png' },
+  { name: 'David Miller', title: 'Data Scientist at BigData Corp', company: 'BigData Corp', interests: ['AI', 'SaaS', 'Venture Capital'], personalityTraits: ['Analytical', 'Driven'], avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&h=300&fit=crop' },
+  { name: 'Emily White', title: 'UX Lead at Creative Solutions', company: 'Creative Solutions', interests: ['UX/UI Design', 'Frontend Development', 'Web3'], personalityTraits: ['Creative', 'Collaborative'], avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&h=300&fit=crop' },
+  { name: 'Frank Green', title: 'ML Researcher at DeepLearn AI', company: 'DeepLearn AI', interests: ['AI', 'ML', 'Data Science'], personalityTraits: ['Analytical', 'Introverted'], avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=300&h=300&fit=crop' },
+  { name: 'Grace Hall', title: 'Head of Product at ScaleFast', company: 'ScaleFast', interests: ['Product Management', 'SaaS', 'Growth Hacking'], personalityTraits: ['Extroverted', 'Leader'], avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&fit=crop' },
 ];
 
 export const peopleMet = [
     {
       name: 'Alice Johnson',
       company: 'Innovate Inc.',
-      avatar: 'https://placehold.co/100x100.png',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&fit=crop',
       sharedInterests: 'Generative AI, Ethical ML',
       conversationSummary: 'Discussed potential collaboration on a new open-source project and her recent work with large language models.',
     },
     {
       name: 'Ben Carter',
       company: 'Groq',
-      avatar: 'https://placehold.co/100x100.png',
+      avatar: 'https://images.unsplash.com/photo-1591799264318-7e6e74e3dce9?q=80&w=300&h=300&fit=crop',
       sharedInterests: 'High-performance computing, API design',
       conversationSummary: 'Talked about the impressive speed of the Groq LPU and best practices for integrating the API for real-time applications.',
     },

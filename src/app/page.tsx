@@ -40,7 +40,6 @@ export default function DiscoveryPage() {
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="rounded-t-lg object-cover"
-                        data-ai-hint={talk.imageHint}
                       />
                     </div>
                     <CardTitle>{talk.title}</CardTitle>
@@ -72,7 +71,7 @@ export default function DiscoveryPage() {
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                   <Avatar className="w-16 h-16 border-2 border-primary/20">
-                    <AvatarImage src={person.avatar} alt={person.name} data-ai-hint="person portrait" />
+                    <AvatarImage src={person.avatar} alt={person.name} />
                     <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
