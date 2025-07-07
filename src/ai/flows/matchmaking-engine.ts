@@ -20,6 +20,8 @@ const MatchmakingEngineInputSchema = z.object({
     .describe('A list of the attendee personality traits.'),
   otherAttendeeProfiles: z.array(z.object({
     name: z.string(),
+    title: z.string(),
+    company: z.string(),
     interests: z.array(z.string()),
     personalityTraits: z.array(z.string())
   })).describe('A list of other attendees profiles, including their interests and personality traits.')
@@ -28,6 +30,9 @@ export type MatchmakingEngineInput = z.infer<typeof MatchmakingEngineInputSchema
 
 const MatchmakingEngineOutputSchema = z.array(z.object({
   attendeeName: z.string().describe('The name of the suggested attendee to meet.'),
+  title: z.string().describe("The matched attendee's job title."),
+  company: z.string().describe("The matched attendee's company."),
+  interests: z.array(z.string()).describe("The matched attendee's interests."),
   matchReason: z.string().describe('The explanation of why this attendee is a good match.'),
   matchPercentage: z.number().describe('The percentage of how well the attendee matches the user. Should be between 0 and 100.')
 }));
@@ -49,11 +54,13 @@ Attendee Personality Traits: {{attendeePersonalityTraits}}
 Other Attendee Profiles:
 {{#each otherAttendeeProfiles}}
   - Name: {{name}}
+    Title: {{title}}
+    Company: {{company}}
     Interests: {{interests}}
     Personality Traits: {{personalityTraits}}
 {{/each}}
 
-Suggest attendees to meet, explain why they are a good match, and provide a match percentage.
+Suggest attendees to meet. For each suggestion, include their name, title, company, interests, a reason why they are a good match, and a match percentage.
 `,
 });
 
