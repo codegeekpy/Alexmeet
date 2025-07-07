@@ -17,6 +17,7 @@ const PostEventFollowUpInputSchema = z.object({
     z.object({
       name: z.string().describe('The name of the person met.'),
       company: z.string().describe('The company the person works for.'),
+      avatar: z.string().optional(),
       sharedInterests: z.string().describe('Shared interests with the attendee.'),
       conversationSummary: z.string().describe('A summary of the conversation with the person.'),
     })
