@@ -1,3 +1,4 @@
+
 export const trendingTalks = [
   {
     title: 'The Future of Generative AI',

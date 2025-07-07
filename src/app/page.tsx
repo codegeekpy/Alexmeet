@@ -38,6 +38,7 @@ export default function DiscoveryPage() {
                         priority={index === 0}
                         alt={talk.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="rounded-t-lg object-cover"
                         data-ai-hint={talk.imageHint}
                       />
