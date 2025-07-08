@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,8 +49,6 @@ export function MatchmakingClient() {
   }, [toast]);
   
   const handleGenerateWarmUp = async (match: MatchmakingEngineOutput[0]) => {
-    if (!match) return;
-    setSelectedMatch(match);
     setIsWarmUpLoading(true);
     setWarmUp(null);
     try {
@@ -84,6 +82,16 @@ export function MatchmakingClient() {
       setIsWarmUpLoading(false);
     }
   };
+
+  const handleDialogOpen = (match: MatchmakingEngineOutput[0]) => {
+    setSelectedMatch(match);
+    handleGenerateWarmUp(match);
+  };
+  
+  const handleDialogClose = () => {
+    setSelectedMatch(null);
+    setWarmUp(null);
+  }
 
   return (
     <div>
@@ -142,64 +150,63 @@ export function MatchmakingClient() {
                 </p>
               </CardContent>
               <CardFooter>
-                <Dialog onOpenChange={(open) => { if(open) { handleGenerateWarmUp(match) } }}>
-                  <DialogTrigger asChild>
-                    <Button className="w-full">
-                      <MessageSquareQuote className="mr-2" />
-                      Meeting Warm-up
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[525px]">
-                    <DialogHeader>
-                      <DialogTitle>Meeting Warm-up with {selectedMatch?.attendeeName}</DialogTitle>
-                      <DialogDescription>
-                        Get pre-briefed with talking points for your meeting.
-                      </DialogDescription>
-                    </DialogHeader>
-                    {isWarmUpLoading && (
-                      <div className="space-y-6 py-4">
-                          <div className="space-y-2">
-                            <Skeleton className="h-5 w-[150px]" />
-                            <Skeleton className="h-4 w-full" />
-                            <Skeleton className="h-4 w-[90%]" />
-                          </div>
-                           <Separator/>
-                          <div className="space-y-2">
-                            <Skeleton className="h-5 w-[200px]" />
-                            <Skeleton className="h-4 w-full" />
-                            <Skeleton className="h-4 w-full" />
-                          </div>
-                      </div>
-                    )}
-                    {warmUp && (
-                      <div className="py-4 space-y-6">
-                          <div className="space-y-2">
-                              <h4 className="font-semibold flex items-center gap-2"><Info className="text-primary"/> Summary</h4>
-                              <p className="text-sm text-muted-foreground">{warmUp.summary}</p>
-                          </div>
-                          <Separator />
-                          <div className="space-y-2">
-                              <h4 className="font-semibold flex items-center gap-2"><Sparkles className="text-primary"/> Conversation Starters</h4>
-                              <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                                  {warmUp.conversationStarters.map((starter, i) => <li key={i}>{starter}</li>)}
-                              </ul>
-                          </div>
-                           <Separator />
-                           <div className="space-y-2">
-                              <h4 className="font-semibold flex items-center gap-2"><Target className="text-primary"/> Key Questions to Ask</h4>
-                              <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                                  {warmUp.keyQuestions.map((q, i) => <li key={i}>{q}</li>)}
-                              </ul>
-                          </div>
-                      </div>
-                    )}
-                  </DialogContent>
-                </Dialog>
+                 <Button className="w-full" onClick={() => handleDialogOpen(match)}>
+                    <MessageSquareQuote className="mr-2" />
+                    Meeting Warm-up
+                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
       )}
+
+      <Dialog open={!!selectedMatch} onOpenChange={(open) => !open && handleDialogClose()}>
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogHeader>
+            <DialogTitle>Meeting Warm-up with {selectedMatch?.attendeeName}</DialogTitle>
+            <DialogDescription>
+              Get pre-briefed with talking points for your meeting.
+            </DialogDescription>
+          </DialogHeader>
+          {isWarmUpLoading && (
+            <div className="space-y-6 py-4">
+                <div className="space-y-2">
+                  <Skeleton className="h-5 w-[150px]" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-[90%]" />
+                </div>
+                  <Separator/>
+                <div className="space-y-2">
+                  <Skeleton className="h-5 w-[200px]" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+            </div>
+          )}
+          {warmUp && (
+            <div className="py-4 space-y-6">
+                <div className="space-y-2">
+                    <h4 className="font-semibold flex items-center gap-2"><Info className="text-primary"/> Summary</h4>
+                    <p className="text-sm text-muted-foreground">{warmUp.summary}</p>
+                </div>
+                <Separator />
+                <div className="space-y-2">
+                    <h4 className="font-semibold flex items-center gap-2"><Sparkles className="text-primary"/> Conversation Starters</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                        {warmUp.conversationStarters.map((starter, i) => <li key={i}>{starter}</li>)}
+                    </ul>
+                </div>
+                  <Separator />
+                  <div className="space-y-2">
+                    <h4 className="font-semibold flex items-center gap-2"><Target className="text-primary"/> Key Questions to Ask</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                        {warmUp.keyQuestions.map((q, i) => <li key={i}>{q}</li>)}
+                    </ul>
+                </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
