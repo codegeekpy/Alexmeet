@@ -1,7 +1,8 @@
 "use client";
 
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
-import { Bar, Pie, BarChart as BarChartRecharts, PieChart as PieChartRecharts, Cell, ResponsiveContainer } from "recharts";
+import * as React from "react";
+import { Bar, Pie, BarChart as BarChartRecharts, PieChart as PieChartRecharts, Cell, ResponsiveContainer, Label } from "recharts";
 
 const THEME_CHART_COLORS = [
   "hsl(var(--chart-1))",
@@ -25,18 +26,70 @@ export function SessionRatingsChart({ data }: { data: any[] }) {
     </ChartContainer>
   );
 }
-export function InterestDistributionChart({ data }: { data: any[] }) {
+
+export function InterestDistributionChart({ data, config }: { data: any[], config: any }) {
+  const totalValue = React.useMemo(() => {
+    return data.reduce((acc, curr) => acc + curr.value, 0);
+  }, [data]);
+
   return (
-    <ChartContainer config={{}} className="h-[300px] w-full">
-        <PieChartRecharts width={400} height={300}>
-          <ChartLegend content={<ChartLegendContent nameKey="name" />} />
-          <ChartTooltip content={<ChartTooltipContent nameKey="name" />} />
-          <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.fill} />
-            ))}
-          </Pie>
-        </PieChartRecharts>
+    <ChartContainer
+      config={config}
+      className="mx-auto aspect-square h-[300px]"
+    >
+      <PieChartRecharts>
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel nameKey="name" />}
+        />
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          innerRadius={60}
+          strokeWidth={5}
+        >
+          {data.map((entry) => (
+            <Cell
+              key={entry.name}
+              fill={`var(--color-${entry.name.toLowerCase().replace(/[\s/]/g, '-')})`}
+            />
+          ))}
+          <Label
+            content={({ viewBox }) => {
+              if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                return (
+                  <text
+                    x={viewBox.cx}
+                    y={viewBox.cy}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                  >
+                    <tspan
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      className="fill-foreground text-3xl font-bold"
+                    >
+                      {totalValue.toLocaleString()}
+                    </tspan>
+                    <tspan
+                      x={viewBox.cx}
+                      y={(viewBox.cy || 0) + 24}
+                      className="fill-muted-foreground"
+                    >
+                      Attendees
+                    </tspan>
+                  </text>
+                );
+              }
+            }}
+          />
+        </Pie>
+        <ChartLegend
+          content={<ChartLegendContent nameKey="name" />}
+          className="-translate-y-[2rem] flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+        />
+      </PieChartRecharts>
     </ChartContainer>
   );
 }

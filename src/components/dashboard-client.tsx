@@ -4,9 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { organizerStats } from '@/lib/data';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import type { ChartConfig } from "@/components/ui/chart";
 
 const SessionRatingsChart = dynamic(() => import('@/components/charts').then((mod) => mod.SessionRatingsChart), { ssr: false });
 const InterestDistributionChart = dynamic(() => import('@/components/charts').then((mod) => mod.InterestDistributionChart), { ssr: false });
+
+const interestChartConfig = {
+    "ai-ml": { label: "AI/ML", color: "hsl(var(--chart-1))" },
+    "saas": { label: "SaaS", color: "hsl(var(--chart-2))" },
+    "venture-capital": { label: "Venture Capital", color: "hsl(var(--chart-3))" },
+    "ux-ui": { label: "UX/UI", color: "hsl(var(--chart-4))" },
+    "other": { label: "Other", color: "hsl(var(--chart-5))" },
+} satisfies ChartConfig;
 
 export default function DashboardClient() {
     const [heatmapData, setHeatmapData] = useState<number[]>([]);
@@ -36,7 +45,7 @@ export default function DashboardClient() {
                         <CardDescription>Breakdown of attendee interests.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <InterestDistributionChart data={organizerStats.interestDistribution} />
+                        <InterestDistributionChart data={organizerStats.interestDistribution} config={interestChartConfig} />
                     </CardContent>
                 </Card>
             </div>
