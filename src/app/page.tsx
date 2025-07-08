@@ -69,39 +69,6 @@ export default function DiscoveryPage() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold tracking-tight mb-4">Recommended For You</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {recommendedForYou.map((person) => (
-            <Card key={person.name} className="transition-shadow hover:shadow-lg flex flex-col">
-               <CardHeader>
-                 <div className="flex items-start gap-4">
-                  <Avatar className="w-16 h-16 border-2 border-primary/20">
-                    <AvatarImage src={person.avatar} alt={person.name} />
-                    <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <CardTitle className="text-xl">{person.name}</CardTitle>
-                    <CardDescription>{person.title}</CardDescription>
-                     <Badge variant="outline" className="mt-2">
-                        <UserCheck className="w-3 h-3 mr-1" />
-                        {person.match}% Match
-                      </Badge>
-                  </div>
-                </div>
-               </CardHeader>
-              <CardContent className="flex-grow">
-                <Progress value={person.match} className="h-2 my-2" />
-                <p className="text-sm mt-2 text-muted-foreground">{person.reason}</p>
-              </CardContent>
-              <CardFooter>
-                 <Button variant="outline" size="sm" className="w-full">View Profile</Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section>
         <div className="mb-4">
           <h2 className="text-2xl font-bold tracking-tight">Event Leaderboard</h2>
           <p className="text-muted-foreground">
