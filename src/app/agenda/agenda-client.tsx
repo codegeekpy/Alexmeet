@@ -15,6 +15,9 @@ import { AlertTriangle, Calendar, Check, Clock, Loader2, Sparkles } from "lucide
 import { useEffect, useState } from "react";
 import { StarRating } from "@/components/star-rating";
 import { Badge } from "@/components/ui/badge";
+import { isToday, isThisWeek, isThisMonth, parseISO } from 'date-fns';
+
+type Session = PersonalizedAgendaBuilderOutput['recommendedSessions'][0];
 
 export function AgendaClient() {
   const [interests, setInterests] = useState("Generative AI, Vector Databases, AI Ethics");
@@ -23,6 +26,10 @@ export function AgendaClient() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [sessionFeedback, setSessionFeedback] = useState<Record<string, { rating: number; notes: string }>>({});
+
+  const [todaySessions, setTodaySessions] = useState<Session[]>([]);
+  const [weekSessions, setWeekSessions] = useState<Session[]>([]);
+  const [monthSessions, setMonthSessions] = useState<Session[]>([]);
 
   const handleFeedbackChange = (sessionId: string, rating?: number, notes?: string) => {
     setSessionFeedback(prev => ({
@@ -36,6 +43,9 @@ export function AgendaClient() {
 
   const handleGenerateAgenda = async () => {
     setIsLoading(true);
+    setTodaySessions([]);
+    setWeekSessions([]);
+    setMonthSessions([]);
     try {
       const result = await personalizedAgendaBuilder({
         interests: interests.split(',').map(i => i.trim()),
@@ -46,6 +56,26 @@ export function AgendaClient() {
         sessions: eventSessions,
       });
       setAgenda(result);
+
+      if (result && result.recommendedSessions) {
+        const today: Session[] = [];
+        const thisWeek: Session[] = [];
+        const thisMonth: Session[] = [];
+
+        result.recommendedSessions.forEach(session => {
+            const sessionDate = parseISO(session.startTime);
+            if (isToday(sessionDate)) {
+                today.push(session);
+            } else if (isThisWeek(sessionDate, { weekStartsOn: 1 })) {
+                thisWeek.push(session);
+            } else if (isThisMonth(sessionDate)) {
+                thisMonth.push(session);
+            }
+        });
+        setTodaySessions(today);
+        setWeekSessions(thisWeek);
+        setMonthSessions(thisMonth);
+      }
     } catch (error) {
       console.error("Failed to generate agenda:", error);
       toast({
@@ -66,6 +96,74 @@ export function AgendaClient() {
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
   }
+
+  const SessionTimeline = ({ sessions }: { sessions: Session[] }) => (
+    <div className="relative border-l-2 border-dashed border-primary/20 pl-8 space-y-8">
+      {sessions.map((session, index) => (
+        <Dialog key={index}>
+           <div className="relative">
+             <div className="absolute -left-[1.1rem] top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+               <Calendar className="h-4 w-4" />
+             </div>
+             <div className="pl-4">
+               <p className="font-bold text-primary">{formatTime(session.startTime)} - {formatTime(session.endTime)}</p>
+               <DialogTrigger asChild>
+                 <Card className="mt-2 transition-shadow hover:shadow-lg cursor-pointer">
+                   <CardHeader>
+                     <div className="flex justify-between items-start">
+                         <div>
+                           <CardTitle>{session.title}</CardTitle>
+                           <CardDescription>
+                             {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                           </CardDescription>
+                         </div>
+                          <Badge variant="outline">
+                           <Check className="w-3 h-3 mr-1.5" />
+                           Scheduled
+                          </Badge>
+                     </div>
+                   </CardHeader>
+                   <CardContent>
+                       <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
+                         <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
+                         <span>{session.reason}</span>
+                       </p>
+                   </CardContent>
+                 </Card>
+               </DialogTrigger>
+             </div>
+           </div>
+           <DialogContent className="sm:max-w-md">
+             <DialogHeader>
+               <DialogTitle>{session.title}</DialogTitle>
+               <DialogDescription>Rate this session and save your notes.</DialogDescription>
+             </DialogHeader>
+             <div className="space-y-6 py-4">
+                 <div className="space-y-2">
+                     <Label htmlFor="rating">Your Rating</Label>
+                     <StarRating
+                         rating={sessionFeedback[session.title]?.rating ?? 0}
+                         onRatingChange={(newRating) => handleFeedbackChange(session.title, newRating)}
+                     />
+                 </div>
+                 <div className="space-y-2">
+                     <Label htmlFor="notes">Your Notes</Label>
+                     <Textarea
+                         id="notes"
+                         placeholder="What did you learn? Any key takeaways?"
+                         className="min-h-[150px]"
+                         value={sessionFeedback[session.title]?.notes ?? ''}
+                         onChange={(e) => handleFeedbackChange(session.title, undefined, e.target.value)}
+                     />
+                 </div>
+             </div>
+           </DialogContent>
+        </Dialog>
+      ))}
+    </div>
+  );
+
+  const noSessionsFound = !isLoading && (!agenda || (todaySessions.length === 0 && weekSessions.length === 0 && monthSessions.length === 0));
 
   return (
     <div className="grid md:grid-cols-3 gap-8">
@@ -121,70 +219,28 @@ export function AgendaClient() {
             ))}
            </div>
         )}
-        {!isLoading && agenda && agenda.recommendedSessions.length > 0 && (
-           <div className="relative border-l-2 border-dashed border-primary/20 pl-8 space-y-8">
-           {agenda.recommendedSessions.map((session, index) => (
-             <Dialog key={index}>
-                <div className="relative">
-                  <div className="absolute -left-[1.1rem] top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    <Calendar className="h-4 w-4" />
-                  </div>
-                  <div className="pl-4">
-                    <p className="font-bold text-primary">{formatTime(session.startTime)} - {formatTime(session.endTime)}</p>
-                    <DialogTrigger asChild>
-                      <Card className="mt-2 transition-shadow hover:shadow-lg cursor-pointer">
-                        <CardHeader>
-                          <div className="flex justify-between items-start">
-                              <div>
-                                <CardTitle>{session.title}</CardTitle>
-                                <CardDescription>
-                                  {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                                </CardDescription>
-                              </div>
-                               <Badge variant="outline">
-                                <Check className="w-3 h-3 mr-1.5" />
-                                Scheduled
-                               </Badge>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
-                              <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
-                              <span>{session.reason}</span>
-                            </p>
-                        </CardContent>
-                      </Card>
-                    </DialogTrigger>
-                  </div>
-                </div>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>{session.title}</DialogTitle>
-                    <DialogDescription>Rate this session and save your notes.</DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-6 py-4">
-                      <div className="space-y-2">
-                          <Label htmlFor="rating">Your Rating</Label>
-                          <StarRating
-                              rating={sessionFeedback[session.title]?.rating ?? 0}
-                              onRatingChange={(newRating) => handleFeedbackChange(session.title, newRating)}
-                          />
-                      </div>
-                      <div className="space-y-2">
-                          <Label htmlFor="notes">Your Notes</Label>
-                          <Textarea
-                              id="notes"
-                              placeholder="What did you learn? Any key takeaways?"
-                              className="min-h-[150px]"
-                              value={sessionFeedback[session.title]?.notes ?? ''}
-                              onChange={(e) => handleFeedbackChange(session.title, undefined, e.target.value)}
-                          />
-                      </div>
-                  </div>
-                </DialogContent>
-             </Dialog>
-           ))}
-         </div>
+        
+        {!isLoading && !noSessionsFound && (
+          <div>
+            {todaySessions.length > 0 && (
+                <section className="mb-12">
+                    <h3 className="text-xl font-bold tracking-tight mb-6 pb-2 border-b">Today</h3>
+                    <SessionTimeline sessions={todaySessions} />
+                </section>
+            )}
+            {weekSessions.length > 0 && (
+                <section className="mb-12">
+                    <h3 className="text-xl font-bold tracking-tight mb-6 pb-2 border-b">This Week</h3>
+                    <SessionTimeline sessions={weekSessions} />
+                </section>
+            )}
+            {monthSessions.length > 0 && (
+                <section className="mb-12">
+                    <h3 className="text-xl font-bold tracking-tight mb-6 pb-2 border-b">This Month</h3>
+                    <SessionTimeline sessions={monthSessions} />
+                </section>
+            )}
+          </div>
         )}
         
         {!isLoading && agenda && agenda.conflicts && agenda.conflicts.length > 0 && (
@@ -230,7 +286,7 @@ export function AgendaClient() {
           </div>
         )}
 
-        {!isLoading && (!agenda || agenda.recommendedSessions.length === 0) && (
+        {noSessionsFound && (
             <div className="flex flex-col items-center justify-center text-center p-12 border-2 border-dashed rounded-lg bg-muted/50">
                 <Calendar className="w-12 h-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-semibold">Your Agenda Awaits</h3>
