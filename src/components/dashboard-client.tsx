@@ -52,7 +52,7 @@ export default function DashboardClient() {
                             <div
                                 key={i}
                                 className="w-full aspect-square rounded-md"
-                                style={{ backgroundColor: `hsla(221.2, 83.2%, 53.3%, ${engagement})` }}
+                                style={{ backgroundColor: `hsla(40, 80%, 60%, ${engagement})` }}
                                 title={`Engagement: ${(engagement * 100).toFixed(0)}%`}
                                 data-ai-hint="heatmap color"
                             />
