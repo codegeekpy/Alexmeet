@@ -11,9 +11,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { eventSessions } from "@/lib/data";
-import { AlertTriangle, Calendar, Clock, Loader2, Sparkles } from "lucide-react";
+import { AlertTriangle, Calendar, Check, Clock, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { StarRating } from "@/components/star-rating";
+import { Badge } from "@/components/ui/badge";
 
 export function AgendaClient() {
   const [interests, setInterests] = useState("Generative AI, Vector Databases, AI Ethics");
@@ -104,7 +105,7 @@ export function AgendaClient() {
       </div>
 
       <div className="md:col-span-2">
-        <h2 className="text-2xl font-bold tracking-tight mb-4">Recommended Schedule</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-4">Your Personalized Schedule</h2>
         {isLoading && (
            <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
@@ -131,10 +132,18 @@ export function AgendaClient() {
                     <DialogTrigger asChild>
                       <Card className="mt-2 transition-shadow hover:shadow-lg cursor-pointer">
                         <CardHeader>
-                          <CardTitle>{session.title}</CardTitle>
-                          <CardDescription>
-                            {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                          </CardDescription>
+                          <div className="flex justify-between items-start">
+                              <div>
+                                <CardTitle>{session.title}</CardTitle>
+                                <CardDescription>
+                                  {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                </CardDescription>
+                              </div>
+                               <Badge variant="outline">
+                                <Check className="w-3 h-3 mr-1.5" />
+                                Scheduled
+                               </Badge>
+                          </div>
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
