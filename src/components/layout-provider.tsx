@@ -34,13 +34,14 @@ import { UserNav } from './user-nav';
 const navItems = [
   { href: '/', label: 'Discovery Feed', icon: LayoutGrid },
   { href: '/agenda', label: 'My Agenda', icon: CalendarCheck },
-  { href: '/ticketing', label: 'Ticketing', icon: Ticket },
+  { href: '/ticketing', label: 'Events', icon: Ticket },
   { href: '/matchmaking',label: 'Matchmaking', icon: Users },
   { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   { href: '/resources', label: 'Resource Hub', icon: FolderKanban },
   { href: '/live', label: 'Live Q&A', icon: Vote },
   { href: '/scanner', label: 'Badge Scanner', icon: QrCode },
   { href: '/follow-up', label: 'Follow-Up', icon: Send },
+  { href: '/venue', label: 'Venue Map', icon: Map },
   { href: '/dashboard', label: 'Organizer View', icon: AreaChart },
 ];
 
