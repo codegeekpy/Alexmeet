@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -67,7 +68,9 @@ You will be given the profile of the user and a list of other attendees. For eac
 {{/each}}
 
 **Your Task:**
-Based on the provided data, identify the top 3-5 most promising connections for the user. For each suggested match, you must provide the following:
+Based on the provided data, identify the top 3-5 most promising connections for the user.
+
+For each match, you MUST return their full profile information (\`attendeeName\`, \`title\`, \`company\`, \`interests\`, \`avatar\`) along with the following calculated fields:
 
 1.  **matchPercentage**: A score from 0 to 100 representing the strength of the match. Calculate this based on a weighted combination of:
     - **Shared Interests (60% weight):** The more interests in common, the higher the score.
@@ -75,7 +78,7 @@ Based on the provided data, identify the top 3-5 most promising connections for 
     - **Potential for Synergy (20% weight):** Look at their roles and companies. Is there a potential for partnership, mentorship, or collaboration?
 2.  **matchReason**: A concise, one-sentence explanation justifying the match. It should highlight the most compelling reason for the two individuals to connect (e.g., "You both share a deep interest in Generative AI and your complementary skills could lead to a great partnership.")
 
-Return an array of the best matches you find.
+Return an array of the best matches you find, ensuring all fields from the output schema are present for each match.
 `,
 });
 
