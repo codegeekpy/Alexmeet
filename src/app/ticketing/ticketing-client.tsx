@@ -77,6 +77,26 @@ export function TicketingClient() {
           </Card>
         ))}
       </div>
+       <div className="space-y-6 text-center">
+          <h2 className="text-3xl font-bold tracking-tight">Our World-Class Venue</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+              Our event is hosted at the prestigious Grand Tech Arena, featuring state-of-the-art facilities perfect for learning and networking.
+          </p>
+          <Card className="max-w-4xl mx-auto">
+              <CardContent className="p-2 aspect-video relative">
+                  <Image src="https://placehold.co/1200x800.png" alt="Venue Map Preview" data-ai-hint="venue map" fill className="rounded-md object-cover"/>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 right-4">
+                     <Link href="/venue">
+                         <Button>
+                              <MapPin className="mr-2" />
+                              Explore Interactive Map
+                         </Button>
+                     </Link>
+                  </div>
+              </CardContent>
+          </Card>
+      </div>
     </div>
   );
 }
