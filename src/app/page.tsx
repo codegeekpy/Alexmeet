@@ -16,6 +16,7 @@ import { trendingTalks, recommendedForYou } from '@/lib/data';
 import { RealTimeAIAssistant } from '@/components/real-time-ai-assistant';
 import { Button } from '@/components/ui/button';
 import { UserCheck } from 'lucide-react';
+import { LeaderboardClient } from '@/app/leaderboard/leaderboard-client';
 
 export default function DiscoveryPage() {
   return (
@@ -97,6 +98,16 @@ export default function DiscoveryPage() {
             </Card>
           ))}
         </div>
+      </section>
+
+      <section>
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold tracking-tight">Event Leaderboard</h2>
+          <p className="text-muted-foreground">
+            See who's making the most connections and attending the most sessions.
+          </p>
+        </div>
+        <LeaderboardClient />
       </section>
     </div>
   );

@@ -1,5 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LeaderboardClient } from '@/app/leaderboard/leaderboard-client';
+import { Separator } from '@/components/ui/separator';
 import { ProfileForm } from './profile-form';
 
 export default function ProfilePage() {
@@ -28,6 +30,18 @@ export default function ProfilePage() {
           <ProfileForm />
         </CardContent>
       </Card>
+
+      <Separator />
+
+      <div className="space-y-4">
+        <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight">Event Leaderboard</h2>
+            <p className="text-muted-foreground">
+            See how you stack up against other attendees.
+            </p>
+        </div>
+        <LeaderboardClient />
+      </div>
     </div>
   );
 }
