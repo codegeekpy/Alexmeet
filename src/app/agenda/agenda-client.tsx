@@ -23,6 +23,7 @@ export function AgendaClient() {
     setIsLoading(true);
     setAgenda(null);
     try {
+      console.log("Input to personalizedAgendaBuilder:", { interests: interests.split(',').map(i => i.trim()), goals, availability: [{ startTime: new Date(new Date().setHours(8, 0, 0, 0)).toISOString(), endTime: new Date(new Date().setHours(18, 0, 0, 0)).toISOString() }], sessions: eventSessions });
       const result = await personalizedAgendaBuilder({
         interests: interests.split(',').map(i => i.trim()),
         goals,
@@ -31,6 +32,7 @@ export function AgendaClient() {
         ],
         sessions: eventSessions,
       });
+      console.log("Result from personalizedAgendaBuilder:", result);
       setAgenda(result);
     } catch (error) {
       console.error("Failed to generate agenda:", error);

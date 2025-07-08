@@ -132,3 +132,12 @@ export const organizerStats = {
       { name: 'Other', value: 5, fill: 'hsl(var(--chart-5))' },
     ],
 };
+
+export const leaderboardData = [
+  { rank: 1, name: 'Grace Hall', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&fit=crop', points: 1250, change: 'up' },
+  { rank: 2, name: 'Alex Doe', avatar: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=300&h=300&fit=crop', points: 1180, change: 'down' },
+  { rank: 3, name: 'David Miller', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&h=300&fit=crop', points: 1120, change: 'same' },
+  { rank: 4, name: 'Emily White', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&h=300&fit=crop', points: 1050, change: 'up' },
+  { rank: 5, name: 'Carlos Gomez', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&h=300&fit=crop', points: 980, change: 'down' },
+  { rank: 6, name: 'Frank Green', title: 'ML Researcher at DeepLearn AI', company: 'DeepLearn AI', interests: ['AI', 'ML', 'Data Science'], personalityTraits: ['Analytical', 'Introverted'], avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=300&h=300&fit=crop', points: 950, change: 'up' },
+];

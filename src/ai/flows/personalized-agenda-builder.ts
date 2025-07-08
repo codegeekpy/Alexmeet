@@ -146,7 +146,9 @@ const personalizedAgendaBuilderFlow = ai.defineFlow(
     outputSchema: PersonalizedAgendaBuilderOutputSchema,
   },
   async input => {
+    console.log('personalizedAgendaBuilderFlow input:', JSON.stringify(input, null, 2));
     const {output} = await prompt(input);
+    console.log('personalizedAgendaBuilderFlow output:', JSON.stringify(output, null, 2));
     return output!;
   }
 );

@@ -21,6 +21,7 @@ import {
   LayoutGrid,
   QrCode,
   Send,
+  Trophy,
   User,
   Users,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ const navItems = [
   { href: '/', label: 'Discovery Feed', icon: LayoutGrid },
   { href: '/agenda', label: 'My Agenda', icon: CalendarCheck },
   { href: '/matchmaking',label: 'Matchmaking', icon: Users },
+  { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   { href: '/scanner', label: 'Badge Scanner', icon: QrCode },
   { href: '/follow-up', label: 'Follow-Up', icon: Send },
   { href: '/dashboard', label: 'Organizer View', icon: AreaChart },
