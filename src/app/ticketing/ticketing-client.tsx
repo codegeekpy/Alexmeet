@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Star, MapPin, Calendar, Clock, Ticket } from "lucide-react";
+import { Check, Star, MapPin, Calendar, Clock, Ticket, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -152,6 +152,21 @@ export function EventsClient() {
                 </div>
             </CardContent>
         </Card>
+      </div>
+
+      <Separator className="my-12" />
+
+      <div className="space-y-6 text-center">
+        <h2 className="text-3xl font-bold tracking-tight">Post-Event Follow-Up</h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+            The event may be over, but the connections you made are just beginning. Generate personalized follow-up emails to the people you met.
+        </p>
+        <Link href="/follow-up">
+            <Button>
+                <Send className="mr-2" />
+                Go to Follow-Up Assistant
+            </Button>
+        </Link>
       </div>
     </div>
   );

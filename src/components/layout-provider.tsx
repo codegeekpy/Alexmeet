@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -39,8 +40,6 @@ const navItems = [
   { href: '/resources', label: 'Resource Hub', icon: FolderKanban },
   { href: '/live', label: 'Live Q&A', icon: Vote },
   { href: '/scanner', label: 'Badge Scanner', icon: QrCode },
-  { href: '/follow-up', label: 'Follow-Up', icon: Send },
-  { href: '/venue', label: 'Venue Map', icon: Map },
   { href: '/dashboard', label: 'Organizer View', icon: AreaChart },
 ];
 
