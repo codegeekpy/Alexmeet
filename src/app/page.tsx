@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -13,15 +14,15 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { trendingTalks, recommendedForYou } from '@/lib/data';
-import { RealTimeAIAssistant } from '@/components/real-time-ai-assistant';
 import { Button } from '@/components/ui/button';
 import { UserCheck } from 'lucide-react';
 import { LeaderboardClient } from '@/app/leaderboard/leaderboard-client';
+import { FloatingAIAssistant } from '@/components/floating-ai-assistant';
 
 export default function DiscoveryPage() {
   return (
     <div className="flex flex-col gap-8">
-      <RealTimeAIAssistant />
+      <FloatingAIAssistant />
 
       <section>
         <h2 className="text-2xl font-bold tracking-tight mb-4">Trending Talks</h2>

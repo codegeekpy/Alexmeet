@@ -8,11 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Info, Loader2, MessageSquareQuote, Sparkles, Target, UserCheck } from "lucide-react";
+import { Info, Loader2, MessageCircle, MessageSquareQuote, Sparkles, Target, UserCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function MatchmakingClient() {
@@ -23,6 +24,9 @@ export function MatchmakingClient() {
   const [warmUp, setWarmUp] = useState<MeetingWarmUpOutput | null>(null);
   const [isWarmUpLoading, setIsWarmUpLoading] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<MatchmakingEngineOutput[0] | null>(null);
+  
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chattingWith, setChattingWith] = useState<MatchmakingEngineOutput[0] | null>(null);
 
   useEffect(() => {
     const getMatches = async () => {
@@ -32,7 +36,8 @@ export function MatchmakingClient() {
         if (!response.ok) {
             throw new Error('Failed to fetch attendees');
         }
-        const otherAttendeeProfiles = await response.json();
+        const allAttendees = await response.json();
+        const otherAttendeeProfiles = allAttendees.filter((p: any) => p.name !== 'Alex Doe');
 
         const result = await generateMatch({
           attendeeInterests: ['AI', 'SaaS'],
@@ -89,14 +94,19 @@ export function MatchmakingClient() {
     }
   };
 
-  const handleDialogOpen = (match: MatchmakingEngineOutput[0]) => {
+  const handleWarmUpOpen = (match: MatchmakingEngineOutput[0]) => {
     setSelectedMatch(match);
     handleGenerateWarmUp(match);
   };
   
-  const handleDialogClose = () => {
+  const handleWarmUpClose = () => {
     setSelectedMatch(null);
     setWarmUp(null);
+  }
+
+  const handleChatOpen = (match: MatchmakingEngineOutput[0]) => {
+    setChattingWith(match);
+    setIsChatOpen(true);
   }
 
   return (
@@ -156,17 +166,23 @@ export function MatchmakingClient() {
                 </p>
               </CardContent>
               <CardFooter>
-                 <Button className="w-full" onClick={() => handleDialogOpen(match)}>
-                    <MessageSquareQuote className="mr-2" />
-                    Meeting Warm-up
-                 </Button>
+                 <div className="w-full flex flex-col sm:flex-row gap-2">
+                    <Button className="w-full" onClick={() => handleWarmUpOpen(match)}>
+                        <MessageSquareQuote className="mr-2" />
+                        Meeting Warm-up
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={() => handleChatOpen(match)}>
+                        <MessageCircle className="mr-2" />
+                        Chat
+                    </Button>
+                 </div>
               </CardFooter>
             </Card>
           ))}
         </div>
       )}
 
-      <Dialog open={!!selectedMatch} onOpenChange={(open) => !open && handleDialogClose()}>
+      <Dialog open={!!selectedMatch} onOpenChange={(open) => !open && handleWarmUpClose()}>
         <DialogContent className="sm:max-w-[525px]">
           <DialogHeader>
             <DialogTitle>Meeting Warm-up with {selectedMatch?.attendeeName}</DialogTitle>
@@ -213,6 +229,26 @@ export function MatchmakingClient() {
           )}
         </DialogContent>
       </Dialog>
+      
+      <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Chat with {chattingWith?.attendeeName}</DialogTitle>
+                <DialogDescription>
+                    This is a prototype. In a real app, this would be a live chat window.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="py-4 space-y-4">
+                <div className="flex-grow p-4 bg-muted rounded-lg h-64 flex items-center justify-center text-muted-foreground">
+                    <p>Chat history would appear here.</p>
+                </div>
+                <div className="flex gap-2">
+                    <Input placeholder="Type a message..." disabled />
+                    <Button disabled>Send</Button>
+                </div>
+            </div>
+        </DialogContent>
+    </Dialog>
     </div>
   );
 }

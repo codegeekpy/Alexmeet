@@ -1,7 +1,7 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -56,19 +56,19 @@ export function RealTimeAIAssistant() {
   };
 
   return (
-    <Card className="flex flex-col h-[70vh] max-h-[700px]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <div className="flex flex-col h-full">
+      <div className="p-6 border-b">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
           <Bot className="w-6 h-6" />
           Real-Time AI Assistant
-        </CardTitle>
-        <CardDescription>
+        </h3>
+        <p className="text-sm text-muted-foreground">
           Ask me for suggestions on what to do next at the event.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex-grow flex flex-col gap-4 overflow-hidden">
-        <ScrollArea className="flex-grow pr-4 -mr-4">
-            <div className="space-y-6 pr-4">
+        </p>
+      </div>
+      <div className="flex-grow flex flex-col gap-4 overflow-hidden">
+        <ScrollArea className="flex-grow p-6">
+            <div className="space-y-6">
                 {messages.map((message, index) => (
                     <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
                         {message.role === 'model' && (
@@ -99,7 +99,7 @@ export function RealTimeAIAssistant() {
                 <div ref={messagesEndRef} />
             </div>
         </ScrollArea>
-        <div className="flex gap-2 pt-4 border-t">
+        <div className="flex gap-2 p-4 border-t bg-background">
           <Input
             placeholder="e.g., Who should I network with about SaaS?"
             value={query}
@@ -117,7 +117,7 @@ export function RealTimeAIAssistant() {
              <span className="sr-only">Send message</span>
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
