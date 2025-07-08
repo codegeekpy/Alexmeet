@@ -37,7 +37,6 @@ const navItems = [
   { href: '/ticketing', label: 'Ticketing', icon: Ticket },
   { href: '/matchmaking',label: 'Matchmaking', icon: Users },
   { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
-  { href: '/venue', label: 'Venue Map', icon: Map },
   { href: '/resources', label: 'Resource Hub', icon: FolderKanban },
   { href: '/live', label: 'Live Q&A', icon: Vote },
   { href: '/scanner', label: 'Badge Scanner', icon: QrCode },

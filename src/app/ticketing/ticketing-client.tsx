@@ -77,32 +77,6 @@ export function TicketingClient() {
           </Card>
         ))}
       </div>
-
-      <Card>
-          <CardHeader>
-              <CardTitle>Event Venue</CardTitle>
-              <CardDescription>The event will be held at the Grand Convention Center.</CardDescription>
-          </CardHeader>
-          <CardContent>
-              <div className="aspect-video relative rounded-lg overflow-hidden">
-                  <Image
-                      src="https://placehold.co/1200x800.png"
-                      alt="Venue Map Preview"
-                      fill
-                      className="object-cover"
-                      data-ai-hint="venue map"
-                  />
-              </div>
-          </CardContent>
-          <CardFooter>
-                <Button asChild variant="secondary" className="w-full">
-                  <Link href="/venue">
-                      <MapPin className="mr-2" />
-                      Explore Interactive Map
-                  </Link>
-              </Button>
-          </CardFooter>
-      </Card>
     </div>
   );
 }
