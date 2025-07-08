@@ -54,13 +54,37 @@ export function ProfileForm() {
     defaultValues,
   });
 //Data from ProfileForm
-  function onSubmit(data: ProfileFormValues) {
+  // function onSubmit(data: ProfileFormValues) {
+  //   toast({
+  //       title: "Profile Updated!",
+  //       description: "Your information has been saved successfully.",
+  //   })
+  //   console.log(data);
+  // }
+  // inside ProfileForm component
+async function onSubmit(data: ProfileFormValues) {
+  const res = await fetch('/api/profile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (res.ok) {
     toast({
-        title: "Profile Updated!",
-        description: "Your information has been saved successfully.",
-    })
-    console.log(data);
+      title: 'Profile Updated!',
+      description: 'Your information has been saved successfully.',
+    });
+  } else {
+    toast({
+      variant: 'destructive',
+      title: 'Error',
+      description: 'Something went wrong while saving your profile.',
+    });
   }
+
+  console.log(await res.json());
+}
+
 
   return (
     <Form {...form}>
