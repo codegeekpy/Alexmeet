@@ -18,12 +18,15 @@ import {
   AreaChart,
   BrainCircuit,
   CalendarCheck,
+  FolderKanban,
   LayoutGrid,
+  Map,
   QrCode,
   Send,
   Trophy,
   User,
   Users,
+  Vote,
 } from 'lucide-react';
 import { UserNav } from './user-nav';
 
@@ -32,6 +35,9 @@ const navItems = [
   { href: '/agenda', label: 'My Agenda', icon: CalendarCheck },
   { href: '/matchmaking',label: 'Matchmaking', icon: Users },
   { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
+  { href: '/venue', label: 'Venue Map', icon: Map },
+  { href: '/resources', label: 'Resource Hub', icon: FolderKanban },
+  { href: '/live', label: 'Live Q&A', icon: Vote },
   { href: '/scanner', label: 'Badge Scanner', icon: QrCode },
   { href: '/follow-up', label: 'Follow-Up', icon: Send },
   { href: '/dashboard', label: 'Organizer View', icon: AreaChart },
