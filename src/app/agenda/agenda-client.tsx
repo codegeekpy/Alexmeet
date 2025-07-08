@@ -1,9 +1,11 @@
+
 "use client";
 
 import { personalizedAgendaBuilder, PersonalizedAgendaBuilderOutput } from "@/ai/flows/personalized-agenda-builder";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { eventSessions } from "@/lib/data";
 import { AlertTriangle, Calendar, Clock, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { StarRating } from "@/components/star-rating";
 
 export function AgendaClient() {
   const [interests, setInterests] = useState("Generative AI, Vector Databases, AI Ethics");
@@ -18,6 +21,17 @@ export function AgendaClient() {
   const [agenda, setAgenda] = useState<PersonalizedAgendaBuilderOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [sessionFeedback, setSessionFeedback] = useState<Record<string, { rating: number; notes: string }>>({});
+
+  const handleFeedbackChange = (sessionId: string, rating?: number, notes?: string) => {
+    setSessionFeedback(prev => ({
+        ...prev,
+        [sessionId]: {
+            rating: rating ?? prev[sessionId]?.rating ?? 0,
+            notes: notes ?? prev[sessionId]?.notes ?? '',
+        }
+    }));
+  };
 
   const handleGenerateAgenda = async () => {
     setIsLoading(true);
@@ -107,28 +121,57 @@ export function AgendaClient() {
         {!isLoading && agenda && agenda.recommendedSessions.length > 0 && (
            <div className="relative border-l-2 border-dashed border-primary/20 pl-8 space-y-8">
            {agenda.recommendedSessions.map((session, index) => (
-             <div key={index} className="relative">
-               <div className="absolute -left-[1.1rem] top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                 <Calendar className="h-4 w-4" />
-               </div>
-               <div className="pl-4">
-                 <p className="font-bold text-primary">{formatTime(session.startTime)} - {formatTime(session.endTime)}</p>
-                 <Card className="mt-2 transition-shadow hover:shadow-lg">
-                   <CardHeader>
-                     <CardTitle>{session.title}</CardTitle>
-                     <CardDescription>
-                       {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                     </CardDescription>
-                   </CardHeader>
-                   <CardContent>
-                       <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
-                         <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
-                         <span>{session.reason}</span>
-                       </p>
-                   </CardContent>
-                 </Card>
-               </div>
-             </div>
+             <Dialog key={index}>
+                <div className="relative">
+                  <div className="absolute -left-[1.1rem] top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                    <Calendar className="h-4 w-4" />
+                  </div>
+                  <div className="pl-4">
+                    <p className="font-bold text-primary">{formatTime(session.startTime)} - {formatTime(session.endTime)}</p>
+                    <DialogTrigger asChild>
+                      <Card className="mt-2 transition-shadow hover:shadow-lg cursor-pointer">
+                        <CardHeader>
+                          <CardTitle>{session.title}</CardTitle>
+                          <CardDescription>
+                            {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
+                              <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
+                              <span>{session.reason}</span>
+                            </p>
+                        </CardContent>
+                      </Card>
+                    </DialogTrigger>
+                  </div>
+                </div>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>{session.title}</DialogTitle>
+                    <DialogDescription>Rate this session and save your notes.</DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-6 py-4">
+                      <div className="space-y-2">
+                          <Label htmlFor="rating">Your Rating</Label>
+                          <StarRating
+                              rating={sessionFeedback[session.title]?.rating ?? 0}
+                              onRatingChange={(newRating) => handleFeedbackChange(session.title, newRating)}
+                          />
+                      </div>
+                      <div className="space-y-2">
+                          <Label htmlFor="notes">Your Notes</Label>
+                          <Textarea
+                              id="notes"
+                              placeholder="What did you learn? Any key takeaways?"
+                              className="min-h-[150px]"
+                              value={sessionFeedback[session.title]?.notes ?? ''}
+                              onChange={(e) => handleFeedbackChange(session.title, undefined, e.target.value)}
+                          />
+                      </div>
+                  </div>
+                </DialogContent>
+             </Dialog>
            ))}
          </div>
         )}
