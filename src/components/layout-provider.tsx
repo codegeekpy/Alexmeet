@@ -21,13 +21,9 @@ import {
   CalendarCheck,
   FolderKanban,
   LayoutGrid,
-  Map,
   QrCode,
-  Send,
   Ticket,
-  Trophy,
   User,
-  Users,
   Vote,
 } from 'lucide-react';
 import { UserNav } from './user-nav';
