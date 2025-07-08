@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { eventSessions } from "@/lib/data";
 import { AlertTriangle, Calendar, Check, Clock, Loader2, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarRating } from "@/components/star-rating";
 import { Badge } from "@/components/ui/badge";
 
@@ -20,7 +20,7 @@ export function AgendaClient() {
   const [interests, setInterests] = useState("Generative AI, Vector Databases, AI Ethics");
   const [goals, setGoals] = useState("Find co-founders and learn about scaling AI applications.");
   const [agenda, setAgenda] = useState<PersonalizedAgendaBuilderOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [sessionFeedback, setSessionFeedback] = useState<Record<string, { rating: number; notes: string }>>({});
 
@@ -36,9 +36,7 @@ export function AgendaClient() {
 
   const handleGenerateAgenda = async () => {
     setIsLoading(true);
-    setAgenda(null);
     try {
-      console.log("Input to personalizedAgendaBuilder:", { interests: interests.split(',').map(i => i.trim()), goals, availability: [{ startTime: new Date(new Date().setHours(8, 0, 0, 0)).toISOString(), endTime: new Date(new Date().setHours(18, 0, 0, 0)).toISOString() }], sessions: eventSessions });
       const result = await personalizedAgendaBuilder({
         interests: interests.split(',').map(i => i.trim()),
         goals,
@@ -47,7 +45,6 @@ export function AgendaClient() {
         ],
         sessions: eventSessions,
       });
-      console.log("Result from personalizedAgendaBuilder:", result);
       setAgenda(result);
     } catch (error) {
       console.error("Failed to generate agenda:", error);
@@ -61,6 +58,11 @@ export function AgendaClient() {
     }
   };
 
+  useEffect(() => {
+    handleGenerateAgenda();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
   }
@@ -71,7 +73,7 @@ export function AgendaClient() {
         <Card>
           <CardHeader>
             <CardTitle>Your Preferences</CardTitle>
-            <CardDescription>Enter your details to generate a personalized agenda.</CardDescription>
+            <CardDescription>Update your details to regenerate your personalized agenda.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -98,7 +100,7 @@ export function AgendaClient() {
               ) : (
                 <Sparkles className="mr-2 h-4 w-4" />
               )}
-              Generate My Agenda
+              {agenda ? 'Regenerate My Agenda' : 'Generate My Agenda'}
             </Button>
           </CardContent>
         </Card>
