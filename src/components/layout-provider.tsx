@@ -23,6 +23,7 @@ import {
   Map,
   QrCode,
   Send,
+  Ticket,
   Trophy,
   User,
   Users,
@@ -33,6 +34,7 @@ import { UserNav } from './user-nav';
 const navItems = [
   { href: '/', label: 'Discovery Feed', icon: LayoutGrid },
   { href: '/agenda', label: 'My Agenda', icon: CalendarCheck },
+  { href: '/ticketing', label: 'Ticketing', icon: Ticket },
   { href: '/matchmaking',label: 'Matchmaking', icon: Users },
   { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   { href: '/venue', label: 'Venue Map', icon: Map },
