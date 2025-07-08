@@ -11,8 +11,15 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { allAttendees, eventSessions } from '@/lib/data';
 
+const MessageSchema = z.object({
+  role: z.enum(['user', 'model']),
+  content: z.string(),
+});
+export type Message = z.infer<typeof MessageSchema>;
+
 const GetNextActionInputSchema = z.object({
   query: z.string().describe('The user query for what to do next.'),
+  history: z.array(MessageSchema).optional().describe('The conversation history so far.'),
 });
 export type GetNextActionInput = z.infer<typeof GetNextActionInputSchema>;
 
@@ -68,9 +75,10 @@ const getNextActionFlow = ai.defineFlow(
     inputSchema: GetNextActionInputSchema,
     outputSchema: GetNextActionOutputSchema,
   },
-  async ({ query }) => {
+  async ({ query, history }) => {
     const response = await ai.generate({
       prompt: query,
+      history: history?.map(m => ({ role: m.role, parts: [{ text: m.content }] })),
       tools: [getLiveSessions, findRelevantPeople],
       system: `You are a helpful and friendly AI event guide for the AIxMeet conference.
 Your goal is to provide personalized and actionable recommendations to attendees.
