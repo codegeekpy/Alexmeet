@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that suggests nearby booths, live trending talks, and people to meet.
@@ -9,7 +10,8 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { allAttendees, eventSessions } from '@/lib/data';
+import { eventSessions } from '@/lib/data';
+import { openDb } from '@/app/database/db';
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'model']),
@@ -63,8 +65,14 @@ const findRelevantPeople = ai.defineTool(
   },
   async ({ interest }) => {
     const lowerCaseInterest = interest.toLowerCase();
+    const db = await openDb();
+    const allAttendees = await db.all('SELECT name, title, company, interests FROM attendees');
+    
     return allAttendees
-        .filter(person => person.interests.some(i => i.toLowerCase().includes(lowerCaseInterest)))
+        .filter(person => {
+            const interests: string[] = JSON.parse(person.interests || '[]');
+            return interests.some(i => i.toLowerCase().includes(lowerCaseInterest))
+        })
         .map(({ name, title, company }) => ({ name, title, company }));
   }
 );

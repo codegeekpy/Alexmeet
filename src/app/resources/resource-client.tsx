@@ -1,14 +1,33 @@
+
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { trendingTalks, allAttendees, peopleMet } from "@/lib/data";
+import { trendingTalks } from "@/lib/data";
 import { Download, Globe } from "lucide-react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export function ResourceClient() {
+  const [speakers, setSpeakers] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchSpeakers = async () => {
+      try {
+        const res = await fetch('/api/attendees');
+        if (!res.ok) {
+          throw new Error('Failed to fetch speakers');
+        }
+        const data = await res.json();
+        setSpeakers(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchSpeakers();
+  }, []);
+
   return (
      <Tabs defaultValue="slides" className="w-full">
       <TabsList className="grid w-full grid-cols-3">
@@ -38,7 +57,7 @@ export function ResourceClient() {
 
       <TabsContent value="speakers" className="mt-6">
          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allAttendees.concat(peopleMet).map((speaker, index) => (
+            {speakers.map((speaker, index) => (
                 <Card key={index} className="text-center">
                     <CardContent className="pt-6">
                         <Avatar className="w-20 h-20 mx-auto mb-4">
@@ -46,7 +65,7 @@ export function ResourceClient() {
                             <AvatarFallback>{speaker.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <h3 className="text-lg font-semibold">{speaker.name}</h3>
-                        <p className="text-sm text-muted-foreground">{speaker.company}</p>
+                        <p className="text-sm text-muted-foreground">{speaker.title} at {speaker.company}</p>
                     </CardContent>
                 </Card>
             ))}

@@ -88,13 +88,6 @@ export const eventSessions = [
   },
 ];
 
-export const allAttendees = [
-  { name: 'David Miller', title: 'Data Scientist at BigData Corp', company: 'BigData Corp', interests: ['AI', 'SaaS', 'Venture Capital'], personalityTraits: ['Analytical', 'Driven'], avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&h=300&fit=crop' },
-  { name: 'Emily White', title: 'UX Lead at Creative Solutions', company: 'Creative Solutions', interests: ['UX/UI Design', 'Frontend Development', 'Web3'], personalityTraits: ['Creative', 'Collaborative'], avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&h=300&fit=crop' },
-  { name: 'Frank Green', title: 'ML Researcher at DeepLearn AI', company: 'DeepLearn AI', interests: ['AI', 'ML', 'Data Science'], personalityTraits: ['Analytical', 'Introverted'], avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=300&h=300&fit=crop' },
-  { name: 'Grace Hall', title: 'Head of Product at ScaleFast', company: 'ScaleFast', interests: ['Product Management', 'SaaS', 'Growth Hacking'], personalityTraits: ['Extroverted', 'Leader'], avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&fit=crop' },
-];
-
 export const peopleMet = [
     {
       name: 'Alice Johnson',

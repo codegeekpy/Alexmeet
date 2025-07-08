@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
@@ -5,16 +6,24 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { QrCode, CameraOff, UserPlus, Users } from 'lucide-react';
-import { allAttendees } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
-type Attendee = typeof allAttendees[0];
+type Attendee = {
+    id: number;
+    name: string;
+    title: string;
+    company: string;
+    interests: string[];
+    personalityTraits: string[];
+    avatar: string;
+};
 
 export function ScannerClient() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [scannedContacts, setScannedContacts] = useState<Attendee[]>([]);
+  const [allAttendees, setAllAttendees] = useState<Attendee[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -35,22 +44,46 @@ export function ScannerClient() {
         setHasCameraPermission(false);
       }
     };
+    
+    const fetchAttendees = async () => {
+        try {
+            const res = await fetch('/api/attendees');
+            if (!res.ok) throw new Error('Failed to fetch attendees');
+            const data = await res.json();
+            setAllAttendees(data);
+        } catch (error) {
+            console.error("Error fetching attendees:", error);
+            toast({
+                title: "Error",
+                description: "Could not load attendee data for scanning.",
+                variant: "destructive",
+            });
+        }
+    };
+
     getCameraPermission();
+    fetchAttendees();
 
     return () => {
-        // Clean up: stop the camera stream when the component unmounts
         if (videoRef.current && videoRef.current.srcObject) {
             const stream = videoRef.current.srcObject as MediaStream;
             stream.getTracks().forEach(track => track.stop());
         }
     }
-  }, []);
+  }, [toast]);
 
   const handleScan = () => {
-    // Simulate scanning a QR code and getting a contact
+    if (allAttendees.length === 0) {
+        toast({
+            variant: "destructive",
+            title: "Attendee Data Not Loaded",
+            description: "Cannot simulate scan, no attendee data is available.",
+        });
+        return;
+    }
+
     const randomAttendee = allAttendees[Math.floor(Math.random() * allAttendees.length)];
     
-    // Avoid adding duplicates
     if (scannedContacts.find(c => c.name === randomAttendee.name)) {
         toast({
             variant: 'default',
@@ -90,7 +123,7 @@ export function ScannerClient() {
                     </div>
                  )}
             </div>
-            <Button onClick={handleScan} disabled={!hasCameraPermission} className="w-full mt-4">
+            <Button onClick={handleScan} disabled={!hasCameraPermission || allAttendees.length === 0} className="w-full mt-4">
               <UserPlus className="mr-2" /> Simulate Scan
             </Button>
             {hasCameraPermission === false && (

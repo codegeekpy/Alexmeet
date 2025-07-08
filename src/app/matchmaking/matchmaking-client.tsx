@@ -1,3 +1,4 @@
+
 "use client";
 
 import { generateMatch, MatchmakingEngineOutput } from "@/ai/flows/matchmaking-engine";
@@ -11,7 +12,6 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { allAttendees } from "@/lib/data";
 import { Info, Loader2, MessageSquareQuote, Sparkles, Target, UserCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -28,10 +28,16 @@ export function MatchmakingClient() {
     const getMatches = async () => {
       setIsLoading(true);
       try {
+        const response = await fetch('/api/attendees');
+        if (!response.ok) {
+            throw new Error('Failed to fetch attendees');
+        }
+        const otherAttendeeProfiles = await response.json();
+
         const result = await generateMatch({
           attendeeInterests: ['AI', 'SaaS'],
           attendeePersonalityTraits: ['Analytical', 'Collaborative'],
-          otherAttendeeProfiles: allAttendees
+          otherAttendeeProfiles,
         });
         setMatches(result);
       } catch (error) {
