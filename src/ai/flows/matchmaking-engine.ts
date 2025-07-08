@@ -35,8 +35,8 @@ const MatchmakingEngineOutputSchema = z.array(z.object({
   company: z.string().describe("The matched attendee's company."),
   interests: z.array(z.string()).describe("The matched attendee's interests."),
   avatar: z.string().optional().describe("URL for the attendee's avatar image."),
-  matchReason: z.string().describe('The explanation of why this attendee is a good match.'),
-  matchPercentage: z.number().describe('The percentage of how well the attendee matches the user. Should be between 0 and 100.')
+  matchReason: z.string().describe('A concise, one-sentence explanation justifying why this attendee is a good match.'),
+  matchPercentage: z.number().min(0).max(100).describe('A score from 0 to 100 representing the strength of the match.')
 }));
 export type MatchmakingEngineOutput = z.infer<typeof MatchmakingEngineOutputSchema>;
 
@@ -48,22 +48,34 @@ const prompt = ai.definePrompt({
   name: 'matchmakingEnginePrompt',
   input: {schema: MatchmakingEngineInputSchema},
   output: {schema: MatchmakingEngineOutputSchema},
-  prompt: `You are an AI matchmaker for a conference. Given an attendee's interests and personality traits, and a list of other attendee profiles, suggest other attendees the person should meet and explain why.
+  prompt: `You are an expert AI matchmaker for a professional conference. Your goal is to connect attendees for high-value networking opportunities.
 
-Attendee Interests: {{attendeeInterests}}
-Attendee Personality Traits: {{attendeePersonalityTraits}}
+You will be given the profile of the user and a list of other attendees. For each attendee in the list, you must decide if they are a good match for the user.
 
-Other Attendee Profiles:
+**User's Profile:**
+- Interests: {{attendeeInterests}}
+- Personality Traits: {{attendeePersonalityTraits}}
+
+**Other Attendee Profiles:**
 {{#each otherAttendeeProfiles}}
-  - Name: {{name}}
-    Title: {{title}}
-    Company: {{company}}
-    Avatar: {{avatar}}
-    Interests: {{interests}}
-    Personality Traits: {{personalityTraits}}
+- Name: {{name}}
+  - Title: {{title}}
+  - Company: {{company}}
+  - Interests: {{interests}}
+  - Personality Traits: {{personalityTraits}}
+  - Avatar: {{avatar}}
 {{/each}}
 
-Suggest attendees to meet. For each suggestion, include their name, title, company, avatar, interests, a reason why they are a good match, and a match percentage.
+**Your Task:**
+Based on the provided data, identify the top 3-5 most promising connections for the user. For each suggested match, you must provide the following:
+
+1.  **matchPercentage**: A score from 0 to 100 representing the strength of the match. Calculate this based on a weighted combination of:
+    - **Shared Interests (60% weight):** The more interests in common, the higher the score.
+    - **Complementary Traits (20% weight):** Consider how their personality traits might lead to a productive conversation (e.g., 'Analytical' and 'Creative').
+    - **Potential for Synergy (20% weight):** Look at their roles and companies. Is there a potential for partnership, mentorship, or collaboration?
+2.  **matchReason**: A concise, one-sentence explanation justifying the match. It should highlight the most compelling reason for the two individuals to connect (e.g., "You both share a deep interest in Generative AI and your complementary skills could lead to a great partnership.")
+
+Return an array of the best matches you find.
 `,
 });
 

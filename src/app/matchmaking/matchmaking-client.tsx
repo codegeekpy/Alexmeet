@@ -136,9 +136,9 @@ export function MatchmakingClient() {
               </CardHeader>
               <CardContent className="flex-grow">
                 <Progress value={match.matchPercentage} className="h-2 mb-4" />
-                <p className="text-sm text-muted-foreground italic flex items-start gap-2">
-                  <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
-                  <span>{match.matchReason}</span>
+                <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
+                   <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
+                   <span>{match.matchReason}</span>
                 </p>
               </CardContent>
               <CardFooter>
