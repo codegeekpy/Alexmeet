@@ -119,10 +119,21 @@ If you identify a scheduling conflict between two or more relevant sessions, you
 2.  Document the conflict in the \`conflicts\` array.
 3.  For the session that was *not* chosen, suggest one or two alternative sessions that do not conflict with the final schedule. Provide a brief reason for each alternative.
 
-Attendee Interests: {{{interests}}}
-Attendee Goals: {{{goals}}}
-Attendee Availability: {{{availability}}}
-Available Sessions: {{{sessions}}}
+Attendee Interests: {{interests}}
+Attendee Goals: {{goals}}
+
+Attendee Availability:
+{{#each availability}}
+- Start: {{startTime}}, End: {{endTime}}
+{{/each}}
+
+Available Sessions:
+{{#each sessions}}
+- Title: {{title}}
+  Description: {{{description}}}
+  Time: {{startTime}} - {{endTime}}
+  Tags: {{tags}}
+{{/each}}
 
 Output a conflict-free schedule and a list of any conflicts you resolved with alternative suggestions.
 `,
