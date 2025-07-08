@@ -40,7 +40,7 @@ export function ScannerClient() {
           videoRef.current.srcObject = stream;
         }
       } catch (error) {
-        console.error("Error accessing camera:", error);
+        console.error("Error accessing camera:", (error as Error).message);
         setHasCameraPermission(false);
       }
     };

@@ -78,7 +78,7 @@ For each match, you MUST return their full profile information (\`attendeeName\`
     - **Potential for Synergy (20% weight):** Look at their roles and companies. Is there a potential for partnership, mentorship, or collaboration?
 2.  **matchReason**: A concise, one-sentence explanation justifying the match. It should highlight the most compelling reason for the two individuals to connect (e.g., "You both share a deep interest in Generative AI and your complementary skills could lead to a great partnership.")
 
-Return an array of the best matches you find, ensuring all fields from the output schema are present for each match.
+Return an array of the best matches you find. IMPORTANT: The 'matchPercentage' field must be a JSON number (e.g., 85), not a string like "85%" or a sentence.
 `,
 });
 
