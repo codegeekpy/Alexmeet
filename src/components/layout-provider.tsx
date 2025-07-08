@@ -35,7 +35,6 @@ const navItems = [
   { href: '/', label: 'Discovery Feed', icon: LayoutGrid },
   { href: '/agenda', label: 'My Agenda', icon: CalendarCheck },
   { href: '/ticketing', label: 'Ticketing', icon: Ticket },
-  { href: '/venue', label: 'Venue Map', icon: Map },
   { href: '/matchmaking',label: 'Matchmaking', icon: Users },
   { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   { href: '/resources', label: 'Resource Hub', icon: FolderKanban },
