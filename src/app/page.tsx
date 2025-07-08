@@ -11,15 +11,18 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Progress } from '@/components/ui/progress';
-import { trendingTalks, recommendedForYou } from '@/lib/data';
+import { trendingTalks, eventSessions } from '@/lib/data';
 import { Button } from '@/components/ui/button';
-import { UserCheck } from 'lucide-react';
+import { Calendar, Clock } from 'lucide-react';
 import { LeaderboardClient } from '@/app/leaderboard/leaderboard-client';
 import { FloatingAIAssistant } from '@/components/floating-ai-assistant';
+import Link from 'next/link';
 
 export default function DiscoveryPage() {
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <FloatingAIAssistant />
@@ -66,6 +69,38 @@ export default function DiscoveryPage() {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold tracking-tight mb-4">Upcoming Sessions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {eventSessions.slice(0, 3).map((session, index) => (
+            <Card key={index} className="flex flex-col transition-shadow hover:shadow-lg">
+              <CardHeader>
+                <CardTitle>{session.title}</CardTitle>
+                <CardDescription className="flex items-center gap-4 text-sm pt-2">
+                    <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {new Date(session.startTime).toLocaleDateString()}</span>
+                    <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {formatTime(session.startTime)} - {formatTime(session.endTime)}</span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{session.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {session.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary">{tag}</Badge>
+                    ))}
+                </div>
+              </CardContent>
+              <CardFooter>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href="/ticketing">
+                      View Details
+                    </Link>
+                  </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       </section>
 
       <section>
