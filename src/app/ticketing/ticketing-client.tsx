@@ -2,8 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Star } from "lucide-react";
+import { Check, Star, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 
 const ticketTiers = [
   {
@@ -38,41 +40,69 @@ const ticketTiers = [
 
 export function TicketingClient() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start pt-6">
-      {ticketTiers.map((tier) => (
-        <Card key={tier.name} className={cn("flex flex-col h-full", tier.isFeatured && "border-primary shadow-lg relative")}>
-          {tier.isFeatured && (
-            <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
-              <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
-                <Star className="w-4 h-4" />
-                Most Popular
+    <div className="space-y-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start pt-6">
+        {ticketTiers.map((tier) => (
+          <Card key={tier.name} className={cn("flex flex-col h-full", tier.isFeatured && "border-primary shadow-lg relative")}>
+            {tier.isFeatured && (
+              <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
+                <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
+                  <Star className="w-4 h-4" />
+                  Most Popular
+                </div>
               </div>
-            </div>
-          )}
+            )}
+            <CardHeader>
+              <CardTitle>{tier.name}</CardTitle>
+              <div className="flex items-baseline gap-2 pt-2">
+                  <span className="text-4xl font-bold">{tier.price}</span>
+                  <span className="text-muted-foreground">{tier.priceDescription}</span>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <ul className="space-y-3">
+                {tier.features.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full" variant={tier.isFeatured ? 'default' : 'outline'}>
+                {tier.cta}
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+
+      <Card>
           <CardHeader>
-            <CardTitle>{tier.name}</CardTitle>
-            <div className="flex items-baseline gap-2 pt-2">
-                <span className="text-4xl font-bold">{tier.price}</span>
-                <span className="text-muted-foreground">{tier.priceDescription}</span>
-            </div>
+              <CardTitle>Event Venue</CardTitle>
+              <CardDescription>The event will be held at the Grand Convention Center.</CardDescription>
           </CardHeader>
-          <CardContent className="flex-grow">
-            <ul className="space-y-3">
-              {tier.features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
-                  <span className="text-muted-foreground">{feature}</span>
-                </li>
-              ))}
-            </ul>
+          <CardContent>
+              <div className="aspect-video relative rounded-lg overflow-hidden">
+                  <Image
+                      src="https://placehold.co/1200x800.png"
+                      alt="Venue Map Preview"
+                      fill
+                      className="object-cover"
+                      data-ai-hint="venue map"
+                  />
+              </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full" variant={tier.isFeatured ? 'default' : 'outline'}>
-              {tier.cta}
-            </Button>
+                <Button asChild variant="secondary" className="w-full">
+                  <Link href="/venue">
+                      <MapPin className="mr-2" />
+                      Explore Interactive Map
+                  </Link>
+              </Button>
           </CardFooter>
-        </Card>
-      ))}
+      </Card>
     </div>
   );
 }
