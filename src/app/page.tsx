@@ -37,7 +37,7 @@ export default function DiscoveryPage() {
                   <CardHeader className="p-0">
                     <div className="aspect-video relative mb-4">
                       <Image
-                        src={talk.image}
+                        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=600&h=400&fit=crop"
                         priority={index === 0 ? true : false}
                         alt={talk.title}
                         fill
