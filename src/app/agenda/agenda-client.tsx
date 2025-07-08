@@ -103,31 +103,32 @@ export function AgendaClient() {
            </div>
         )}
         {!isLoading && agenda && agenda.recommendedSessions.length > 0 && (
-          <div className="space-y-4 relative">
-             <div className="absolute left-4 top-0 h-full w-0.5 bg-border -z-10" />
-            {agenda.recommendedSessions.map((session, index) => (
-              <div key={index} className="flex items-start gap-4 ml-4">
-                <div className="mt-1 flex-shrink-0 bg-primary w-4 h-4 rounded-full border-4 border-background" />
-                <div className="flex-1 -mt-1.5">
-                  <Card className="transition-shadow hover:shadow-md">
-                    <CardHeader>
-                      <CardTitle>{session.title}</CardTitle>
-                      <CardDescription className="flex items-center flex-wrap gap-x-4 gap-y-1 pt-1">
-                          <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {new Date(session.startTime).toLocaleDateString()}</span>
-                          <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {formatTime(session.startTime)} - {formatTime(session.endTime)}</span>
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-primary italic flex items-start gap-2">
-                        <Sparkles className="inline-block w-4 h-4 mr-1 flex-shrink-0 mt-0.5" />
-                        <span>{session.reason}</span>
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            ))}
-          </div>
+           <div className="relative border-l-2 border-dashed border-primary/20 pl-8 space-y-8">
+           {agenda.recommendedSessions.map((session, index) => (
+             <div key={index} className="relative">
+               <div className="absolute -left-[1.1rem] top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                 <Calendar className="h-4 w-4" />
+               </div>
+               <div className="pl-4">
+                 <p className="font-bold text-primary">{formatTime(session.startTime)} - {formatTime(session.endTime)}</p>
+                 <Card className="mt-2 transition-shadow hover:shadow-lg">
+                   <CardHeader>
+                     <CardTitle>{session.title}</CardTitle>
+                     <CardDescription>
+                       {new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                     </CardDescription>
+                   </CardHeader>
+                   <CardContent>
+                       <p className="text-sm text-muted-foreground italic flex items-start gap-2 bg-secondary/30 p-3 rounded-md">
+                         <Sparkles className="inline-block w-4 h-4 mr-1 text-primary flex-shrink-0 mt-0.5" />
+                         <span>{session.reason}</span>
+                       </p>
+                   </CardContent>
+                 </Card>
+               </div>
+             </div>
+           ))}
+         </div>
         )}
         
         {!isLoading && agenda && agenda.conflicts && agenda.conflicts.length > 0 && (
