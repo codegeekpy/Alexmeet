@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { eventSessions } from "@/lib/data";
 import { AlertTriangle, Calendar, Check, Clock, Loader2, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StarRating } from "@/components/star-rating";
 import { Badge } from "@/components/ui/badge";
 import { isToday, isThisWeek, isThisMonth, parseISO } from 'date-fns';
@@ -23,7 +23,7 @@ export function AgendaClient() {
   const [interests, setInterests] = useState("Generative AI, Vector Databases, AI Ethics");
   const [goals, setGoals] = useState("Find co-founders and learn about scaling AI applications.");
   const [agenda, setAgenda] = useState<PersonalizedAgendaBuilderOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [sessionFeedback, setSessionFeedback] = useState<Record<string, { rating: number; notes: string }>>({});
 
@@ -43,6 +43,7 @@ export function AgendaClient() {
 
   const handleGenerateAgenda = async () => {
     setIsLoading(true);
+    setAgenda(null);
     setTodaySessions([]);
     setWeekSessions([]);
     setMonthSessions([]);
@@ -87,11 +88,6 @@ export function AgendaClient() {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    handleGenerateAgenda();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
